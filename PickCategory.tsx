@@ -1,81 +1,88 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity} from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 
 const data = [
   {
     id: '한식',
-    uri: 'http://drive.google.com/uc?export=view&id=1Bu3NnZEtQXG-bhg10fv9ifeKGjHSZpyn',
+    num: 0,
+    isPicked: false,
+    uri: require('./assets/category/한식.jpg'),
   },
   {
     id: '중식',
-    uri: 'http://drive.google.com/uc?export=view&id=1keGwjb3R1f_1lV7uNwmRUrXiZG1ZETW9',
+    num: 1,
+    isPicked: false,
+    uri: require('./assets/category/중식.jpg'),
   },
   {
     id: '일식',
-    uri: 'http://drive.google.com/uc?export=view&id=1tCJ8FF9AMNywNfpR8qjFB6vrSL-vs7tE',
+    num: 2,
+    isPicked: false,
+    uri: require('./assets/category/일식.jpg'),
   },
   {
     id: '양식',
-    uri: 'http://drive.google.com/uc?export=view&id=1htXXeeEZbnr7JVJpnQE_zhk1SJOXEkSO',
+    num: 3,
+    isPicked: false,
+    uri: require('./assets/category/양식.jpg'),
   },
   {
     id: '분식',
-    uri: 'http://drive.google.com/uc?export=view&id=1mCJHN8PPZMB0kJN0SeH1cyU7fuPX9jaa',
+    num: 4,
+    isPicked: false,
+    uri: require('./assets/category/분식.jpg'),
   },
   {
     id: '패스트푸드',
-    uri: 'http://drive.google.com/uc?export=view&id=169I3GCnuXfmBSJQIJgqAhQNga33k8kVP',
+    num: 5,
+    isPicked: false,
+    uri: require('./assets/category/패스트푸드.jpg'),
   },
   {
     id: '아시안',
-    uri: 'http://drive.google.com/uc?export=view&id=1S-PIF9WJeD0A_CUNeO5OXNCq4t-41ACt',
+    num: 6,
+    isPicked: false,
+    uri: require('./assets/category/아시안.jpg'),
   },
   {
     id: '기타',
-    uri: 'http://drive.google.com/uc?export=view&id=1Bim6zKP2y8PcnN_oo9BGUVDlcrxfKEXt',
+    num: 7,
+    isPicked: false,
+    uri: require('./assets/category/기타.jpg'),
   },
 ];
 
 
 
 export default function PickCategory() {
-  // const [selectedId, setSelectedId] = useState([])
-  /*
-  const renderItem = ({ item }) => {
-    
-    return (
-      <Item
-        item={item}
-        onPress={() => setSelectedId(selectedId.push(item.id))}
-        // backgroundColor={{ backgroundColor }}
-        // textColor={{ color }}
-      />
+  const [selectedData, setSelectedData] = useState(8)
+  const optionStyle = (item: any) => {
+    return item.isPicked ? styles.picked : styles.notPicked
+  }
 
-    );
-  };*/
-  const Item = ({ id }) => (
-    <View style={styles.item}>
-      <Text style={styles.font}>{id}</Text>
-    </View>
-  );
-  
-  const renderItem = ({ item }) => (
-    <View style={{
-      flexDirection: 'row',
-      // alignContent: "center",
-      justifyContent: "center",
-      marginHorizontal: 13,
-      marginVertical: 3,
-    }}>
-      <ImageBackground style={styles.imageCategory} source={{ uri: item.uri }}>
-        <Text style={styles.textOnPicture}>{item.id}</Text>
-      </ImageBackground>
+  const onPressFunc = (item: any) => {
+    item.isPicked = !item.isPicked
+    setSelectedData(item.num)
+    console.log(item)
+  }
+  const renderItem = ( {item}: any ) => (
+    <View style={styles.yes}>
+      <TouchableOpacity onPress={() =>
+        onPressFunc(item)
+      }>
+        <ImageBackground
+          source={item.uri}
+          style={styles.imageCategory}
+          imageStyle={optionStyle(item)}
+        >
+          <Text style={styles.textOnPicture}>{item.id}</Text>
+        </ImageBackground>
+      </TouchableOpacity>
     </View>
   )
 
-  // {require('./assets/samplepicture.jpg')}
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='white' />
@@ -90,7 +97,8 @@ export default function PickCategory() {
       <View style={[styles.body, {flex: 25}]}>
         <FlatList
           data={data}
-          renderItem={renderItem}
+          extraData={selectedData}
+          renderItem={item => renderItem(item)}
           /*style={{
             margin: 20
           }}*/
@@ -107,6 +115,19 @@ export default function PickCategory() {
 }
 
 const styles = StyleSheet.create({
+  yes: {
+    flexDirection: 'row',
+    justifyContent: "center",
+    marginHorizontal: 13,
+    marginVertical: 3,
+  },
+  picked: {
+    borderColor: 'blue', 
+    borderWidth: 5,
+  },
+  notPicked: {
+
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',
@@ -140,8 +161,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 105,
     justifyContent: 'center',
-    // borderRadius: 10,
-    marginBottom: 10,
+    marginBottom: 10,    
   },
   textOnPicture: {
     fontFamily: 'MaruBuri-Regular',
