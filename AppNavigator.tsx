@@ -6,14 +6,16 @@ import Home from './Home';
 import HowTo from './HowTo';
 import HashTag from './HashTag';
 import PickCategory from './PickCategory';
+import WorldCup from './WorldCup';
 
 const AppNavigator = createStackNavigator(
   {
     Welcome: {screen: Welcome},
     Home: {screen: Home},
     HowTo: {screen: HowTo},
-    HashTag: {screen: HashTag},
     PickCategory: {screen: PickCategory},
+    WorldCup: {screen: WorldCup},
+    HashTag: {screen: HashTag},
   },
   {
     initialRouteName: 'Welcome', headerMode: 'none',

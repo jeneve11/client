@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity, TouchableOpacityComponent} from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 
@@ -56,7 +56,7 @@ const data = [
 
 
 
-export default function PickCategory() {
+export default function PickCategory({ navigation: { navigate } }) {
   const [selectedData, setSelectedData] = useState(8)
   const optionStyle = (item: any) => {
     return item.isPicked ? styles.picked : styles.notPicked
@@ -107,8 +107,13 @@ export default function PickCategory() {
         />
       </View>
       <View style={styles.tail}>
-        <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
-        <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
+        <TouchableOpacity onPress={() => navigate('Home')}>
+          <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigate('WorldCup')}>
+          <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
+        </TouchableOpacity>
+
       </View>
     </View>
   )
@@ -122,8 +127,8 @@ const styles = StyleSheet.create({
     marginVertical: 3,
   },
   picked: {
-    borderColor: 'blue', 
-    borderWidth: 5,
+    borderColor: '#0E4A84', 
+    borderWidth: 4,
   },
   notPicked: {
 
