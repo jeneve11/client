@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpac
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 
+
 const data = [
   {
     id: '한식',
@@ -56,16 +57,16 @@ const data = [
 
 
 
-export default function PickCategory({ navigation: { navigate } }) {
-  const [selectedData, setSelectedData] = useState(8)
+export default function PickCategory({ navigation }) {
+  const [touchCount, setTouchCount] = useState(0)
   const optionStyle = (item: any) => {
     return item.isPicked ? styles.picked : styles.notPicked
   }
 
   const onPressFunc = (item: any) => {
     item.isPicked = !item.isPicked
-    setSelectedData(item.num)
-    console.log(item)
+    setTouchCount(touchCount + 1)
+    console.log(item.id)
   }
   const renderItem = ( {item}: any ) => (
     <View style={styles.yes}>
@@ -97,23 +98,19 @@ export default function PickCategory({ navigation: { navigate } }) {
       <View style={[styles.body, {flex: 25}]}>
         <FlatList
           data={data}
-          extraData={selectedData}
+          extraData={touchCount}
           renderItem={item => renderItem(item)}
-          /*style={{
-            margin: 20
-          }}*/
           numColumns={2}
           //keyExtractor={item => item.id}
         />
       </View>
       <View style={styles.tail}>
-        <TouchableOpacity onPress={() => navigate('Home')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate('WorldCup')}>
+        <TouchableOpacity onPress={() => navigation.navigate('WorldCup', {categoryData: data})}>
           <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
         </TouchableOpacity>
-
       </View>
     </View>
   )
@@ -174,10 +171,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: "center",
   },
-
   item: {
     padding: 20,
-    // marginVertical: 8,
     marginHorizontal: 16,
     justifyContent: 'space-between'
   },

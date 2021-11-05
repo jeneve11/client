@@ -5,6 +5,8 @@ import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import * as Font from 'expo-font';
  
+
+
 type Props = {};
 export default class App extends Component<Props> {
   state = {

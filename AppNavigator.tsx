@@ -1,5 +1,6 @@
-import { createStackNavigator } from 'react-navigation-stack';
-import { createAppContainer } from 'react-navigation';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Welcome from './Welcome';
 import Home from './Home';
@@ -8,18 +9,20 @@ import HashTag from './HashTag';
 import PickCategory from './PickCategory';
 import WorldCup from './WorldCup';
 
-const AppNavigator = createStackNavigator(
-  {
-    Welcome: {screen: Welcome},
-    Home: {screen: Home},
-    HowTo: {screen: HowTo},
-    PickCategory: {screen: PickCategory},
-    WorldCup: {screen: WorldCup},
-    HashTag: {screen: HashTag},
-  },
-  {
-    initialRouteName: 'Welcome', headerMode: 'none',
-  }
-);
- 
-export default createAppContainer(AppNavigator);
+
+const Stack = createNativeStackNavigator();
+
+export default function AppNavigator() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Welcome">
+        <Stack.Screen name="Welcome" component={Welcome} options={{headerShown: false}}/>
+        <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
+        <Stack.Screen name="HowTo" component={HowTo} options={{headerShown: false}}/>
+        <Stack.Screen name="HashTag" component={HashTag} options={{headerShown: false}}/>
+        <Stack.Screen name="PickCategory" component={PickCategory} options={{headerShown: false}}/>
+        <Stack.Screen name="WorldCup" component={WorldCup} options={{headerShown: false}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
