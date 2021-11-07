@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity, TouchableOpacityComponent} from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 
 
-const data = [
+const categoryData = [
   {
     id: '한식',
     num: 0,
@@ -57,17 +57,57 @@ const data = [
 
 
 
+
+
+
 export default function PickCategory({ navigation }) {
+  // const [isLoading, setLoading] = useState(true);
+  // const [data, setData] = useState([]);
+
   const [touchCount, setTouchCount] = useState(0)
+
+
   const optionStyle = (item: any) => {
     return item.isPicked ? styles.picked : styles.notPicked
+  };
+  
+  const getFoodList = async (categoryList: Array<string>) => {
+    const emptyArr: any = [];
+    for (const category of categoryList) {
+      try {
+        const response = await fetch(
+          `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${category}`
+        );
+        const json = await response.json();
+        emptyArr.push(json.result);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    return emptyArr;
+  };
+
+  const funcPass = () => {
+    console.log('go to Worldcup.tsx');
+    const categoryList = []
+
+    for (const num of [0, 1, 2, 3, 4, 5, 6, 7]) {
+      if (categoryData[num].isPicked === true) {
+        categoryList.push(categoryData[num].id);
+      }
+    }
+    console.log(categoryList);
+    let prom = getFoodList(categoryList);
+    setTimeout(function(){ console.log(prom['_W']) }, 1000);
+    //navigation.navigate('WorldCup', {foodList: prom};
   }
 
   const onPressFunc = (item: any) => {
-    item.isPicked = !item.isPicked
-    setTouchCount(touchCount + 1)
-    console.log(item.id)
+    item.isPicked = !item.isPicked;
+    setTouchCount(touchCount + 1);
   }
+
   const renderItem = ( {item}: any ) => (
     <View style={styles.yes}>
       <TouchableOpacity onPress={() =>
@@ -97,7 +137,7 @@ export default function PickCategory({ navigation }) {
       </View>
       <View style={[styles.body, {flex: 25}]}>
         <FlatList
-          data={data}
+          data={categoryData}
           extraData={touchCount}
           renderItem={item => renderItem(item)}
           numColumns={2}
@@ -108,7 +148,7 @@ export default function PickCategory({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('WorldCup', {categoryData: data})}>
+        <TouchableOpacity onPress={() => funcPass() }>
           <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
         </TouchableOpacity>
       </View>
@@ -126,9 +166,10 @@ const styles = StyleSheet.create({
   picked: {
     borderColor: '#0E4A84', 
     borderWidth: 4,
+    opacity: 0.7,
   },
   notPicked: {
-
+    opacity: 0.7,
   },
   container: {
     flex: 1,
