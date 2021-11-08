@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 
@@ -56,10 +56,6 @@ const categoryData = [
 ];
 
 
-
-
-
-
 export default function PickCategory({ navigation }) {
   // const [isLoading, setLoading] = useState(true);
   // const [data, setData] = useState([]);
@@ -67,30 +63,47 @@ export default function PickCategory({ navigation }) {
   const [touchCount, setTouchCount] = useState(0)
 
 
+  const chooseRandom = (arr, num = 1) => {
+    const res = [];
+    for(let i = 0; i < num; ){
+       const random = Math.floor(Math.random() * arr.length);
+       if(res.indexOf(arr[random]) !== -1){
+          continue;
+       };
+       res.push(arr[random]);
+       i++;
+    };
+    return res;
+ };
+
   const optionStyle = (item: any) => {
     return item.isPicked ? styles.picked : styles.notPicked
   };
   
-  const getFoodList = async (categoryList: Array<string>) => {
-    const emptyArr: any = [];
+  const getFoodList = (categoryList: Array<string>) => {
+    const foodArr: any = [];
     for (const category of categoryList) {
       try {
-        const response = await fetch(
-          `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${category}`
-        );
-        const json = await response.json();
-        emptyArr.push(json.result);
+        let promise = fetch(
+          `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${category}`)
+            .then(res => res.json())
+            //.then(funcData => console.log(funcData))
+        
+        promise.then((appData: any) => {
+          foodArr.push(appData);
+        });
+        // emptyArr.push(json.result);
       } catch (error) {
         console.error(error);
       }
     }
-
-    return emptyArr;
+    return foodArr;
   };
 
+  // 우하단 화살표를 눌렀을 때 작동하는 함수 / 선택한 카테고리들에서 랜덤한 16개의 음식을 뽑아 WorldCup.tsx로 전달함
   const funcPass = () => {
     console.log('go to Worldcup.tsx');
-    const categoryList = []
+    const categoryList: any = []
 
     for (const num of [0, 1, 2, 3, 4, 5, 6, 7]) {
       if (categoryData[num].isPicked === true) {
@@ -98,9 +111,25 @@ export default function PickCategory({ navigation }) {
       }
     }
     console.log(categoryList);
-    let prom = getFoodList(categoryList);
-    setTimeout(function(){ console.log(prom['_W']) }, 1000);
-    //navigation.navigate('WorldCup', {foodList: prom};
+    let passArr = getFoodList(categoryList);
+    // setTimeout 1초 줌 - Promise 객체가 완전히 
+    setTimeout(function() {
+      let allFoodList: any = []
+      for (const i of passArr){
+        for (const j of i.result){
+          allFoodList.push(j);
+        }
+      }
+      console.log(`Length of the allFoodList: ${allFoodList.length}`);
+
+      if (allFoodList.length < 16) {
+        alert('You should choose more category!');
+      } else {
+        let foodList: any = chooseRandom(allFoodList, 16);
+        navigation.navigate('WorldCup', {foodList: foodList, foodAlreadyPicked: [], categoryList: categoryList});
+      }
+      
+    }, 500);
   }
 
   const onPressFunc = (item: any) => {
@@ -146,10 +175,10 @@ export default function PickCategory({ navigation }) {
       </View>
       <View style={styles.tail}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
+          <Image source={require('./assets/icon/home.png')} style={[styles.image, {width: 40, height: 40}]}/>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => funcPass() }>
-          <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
+          <Image source={require('./assets/icon/arrow.png')} style={styles.image}/>
         </TouchableOpacity>
       </View>
     </View>
@@ -194,11 +223,12 @@ const styles = StyleSheet.create({
     flex: 3,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 10,
   },
   image: {
-    width: 40,
-    height: 50,
+    width: 30,
+    height: 30,
   },
   imageCategory: {
     width: 150,

@@ -6,6 +6,8 @@ import { StatusBar } from 'expo-status-bar'
 
 export default function WorldCup({ navigation, route }) {
   const { foodList } = route.params;
+  const { foodAlreadyPicked } = route.params;
+  const { categoryList } = route.params;
   // 몇강인지는 음식 list의 길이로 판단?
   let stage = ['16강', '8강', '4강', '준결승', '결승'];
 
@@ -16,50 +18,58 @@ export default function WorldCup({ navigation, route }) {
       <View style={styles.header}>
         <Text style={[styles.font, {textAlign: 'right', paddingRight: 35}]}>메뉴월드컵</Text>
         <Text style={[styles.font, {color: '#898C8E', fontSize: 55, textAlign: 'center'}]}>오늘은 안 땡겨!</Text>
-        <Text>{foodList}</Text>
       </View>
 
       <View style={styles.body}>
         {/* 여기 value[0~4] 컨트롤 해야함 조건문?으로*/}
         <Text style={[styles.font, {fontSize: 40, color: 'black'}]}>{stage[0]}</Text>
-        <ImageBackground
-          source={require('./assets/samplepicture.jpg')}
-          style={{width: 170, height: 170, justifyContent: 'center'}}
-          imageStyle={{borderRadius: 90}}
-        >
-          {/* 여기 Food Name 컨트롤 해야함 조건문?으로*/}
-          <Text style={styles.textOnPicture}>FoodName 1</Text>
-        </ImageBackground>
+        {/* 이 onPress함수에서 list 뒤에 2개 pop하고 navigate*/}
+        <TouchableOpacity onPress={() => navigation.push('WorldCup', { foodList: foodList})}>
+          <View>
+            <ImageBackground
+              source={{
+                uri: foodList[foodList.length - 1].image
+              }}
+              style={{width: 170, height: 170, justifyContent: 'center'}}
+              imageStyle={{borderRadius: 90}}
+            >
+              <Text style={styles.textOnPicture}>{foodList[foodList.length - 1].name}</Text>
+            </ImageBackground>
+          </View>
+        </TouchableOpacity>
         <Text style={[styles.font, {fontSize: 40, color: '#0E4A84'}]}>vs</Text>
         <TouchableOpacity onPress={() => navigation.push('WorldCup', { foodList: foodList})}>
-          <ImageBackground
-            source={require('./assets/samplepicture.jpg')}
-            style={{width: 170, height: 170, justifyContent: 'center'}}
-            imageStyle={{borderRadius: 90}}
-            >
-            {/* 여기 Food Name 컨트롤 해야함 조건문?으로*/}
-            <Text style={styles.textOnPicture}>FoodName 2</Text>
-          </ImageBackground>
+          <View>
+            <ImageBackground
+              source={{
+                uri: foodList[foodList.length - 2].image
+              }}
+              style={{width: 170, height: 170, justifyContent: 'center'}}
+              imageStyle={{borderRadius: 90}}
+              >
+              <Text style={styles.textOnPicture}>{foodList[foodList.length - 2].name}</Text>
+            </ImageBackground>
+          </View>
         </TouchableOpacity>
       </View>
 
-
-      {/*여기에 밑부분 해시태그 작성해야함 근데 갯수가 그때그때 달라서 좀 어려울듯 */}
+      {/*여기에 밑부분 해시태그 작성해야함 근데 갯수가 그때그때 달라서 좀 어려울듯 - 메인기능 다 구현하고 하자*/}
       <View style={[styles.body, {flex:1.5, backgroundColor: 'pink', flexDirection: 'column'}]}>
-        <View></View>
+        <View>
+          <Text>{categoryList}</Text>
+          <Text>{foodList[foodList.length - 1].name}</Text>
+        </View>
       </View>
-
-
 
       <View style={styles.tail}>
         <TouchableOpacity onPress={() => navigation.navigate('PickCategory')}> 
           <Text style={[styles.textOnPicture, {color: 'black', fontSize: 15, letterSpacing: -2}]}>다시 카테고리 담기</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
+          <Image source={require('./assets/icon/home.png')} style={styles.image}/>
         </TouchableOpacity>
-
       </View>
+
     </View>
   )
 }
@@ -96,7 +106,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 40,
-    height: 50,
+    height: 40,
   },
   textOnPicture: {
     fontFamily: 'MaruBuri-Regular',

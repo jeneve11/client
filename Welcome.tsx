@@ -19,7 +19,7 @@ export default class Welcome extends React.Component {
             <Text style={styles.content}>당신을 위한</Text>
             <Text style={styles.content}>메뉴 선정</Text>
             <Text style={styles.content}>어플리케이션</Text>
-            <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
+            <Image source={require('./assets/icon/symbol.png')} style={styles.image}/>
           </View>
           <View style={styles.bot}>
             <Text style={styles.ps}>한양대학교</Text>
@@ -67,9 +67,10 @@ const styles = StyleSheet.create({
     letterSpacing: -2,
   },
   image: {
-    width: 150,
-    height: 150,
+    width: 135,
+    height: 110,
     resizeMode: 'contain',
     marginRight: 14,
+    tintColor: 'gray',
   }
 });

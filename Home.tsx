@@ -15,14 +15,14 @@ export default class Home extends React.Component {
             onPress={() => this.props.navigation.navigate('HowTo')
           }>
             <View>
-              <Image source={require('./assets/samplepicture.jpg')} style={styles.imageHowTo}/>
+              <Image source={require('./assets/icon/help.png')} style={styles.imageHowTo}/>
             </View>
           </TouchableOpacity>
         </View>
         <View style={{flex: 4}}>
           <View style={styles.body}>
-            <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
-            <Text style={styles.title}> 왕십리</Text>
+            <Image source={require('./assets/icon/place.png')} style={[styles.imageHowTo, {width: 50, height: 50}]}/>
+            <Text style={styles.title}>왕십리</Text>
           </View>
         </View>
         <View style={{flex: 3}}>
@@ -30,7 +30,7 @@ export default class Home extends React.Component {
             onPress={() => this.props.navigation.navigate('PickCategory')
           }>
             <View style={styles.body}>
-              <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
+              <Image source={require('./assets/icon/cup.png')} style={[styles.image, {backgroundColor: '#f5f5f5', borderRadius: 20}]}/>
               <Text style={styles.content}> 메뉴월드컵</Text>
             </View>
           </TouchableOpacity>
@@ -40,7 +40,7 @@ export default class Home extends React.Component {
             onPress={() => this.props.navigation.navigate('HashTag')
           }>
             <View style={[styles.body, {flexWrap: 'wrap'}]}>
-              <Image source={require('./assets/samplepicture.jpg')} style={styles.image}/>
+              <Image source={require('./assets/icon/hashtag.png')} style={[styles.image, {backgroundColor: '#f5f5f5', borderRadius: 20}]}/>
               <Text style={styles.content}> 해시태그로</Text>
               <Text style={styles.content}>           검색하기</Text>
             </View>
@@ -58,9 +58,10 @@ const styles = StyleSheet.create({
     marginTop: getStatusBarHeight(),
   },
   header: {
-    flex: 2,
+    flex: 1.5,
     alignItems: 'flex-end',
     justifyContent: 'flex-start',
+    padding: 10,
   },
   body: {
     flexDirection:'row',
@@ -69,9 +70,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'MaruBuri-Regular',
-    fontSize: 90,
+    fontSize: 80,
     color: '#0E4A84',
     letterSpacing: -10,
+    paddingHorizontal: 5,
   },
   content: {
     fontFamily: 'MaruBuri-Regular',
@@ -80,13 +82,12 @@ const styles = StyleSheet.create({
     letterSpacing: -6,
   },
   imageHowTo: {
-    width: 100,
-    height: 100,
+    width: 40,
+    height: 40,
     resizeMode: 'contain',
   },
   image: {
-    width: 30,
-    height: 30,
-    resizeMode: 'contain',
+    width: 40,
+    height: 40,
   },
 });
