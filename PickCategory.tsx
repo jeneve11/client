@@ -112,7 +112,7 @@ export default function PickCategory({ navigation }) {
     }
     console.log(categoryList);
     let passArr = getFoodList(categoryList);
-    // setTimeout 1초 줌 - Promise 객체가 완전히 
+    // setTimeout 1초 줌 - Promise 객체가 완전히 object로 전환되기를 대기
     setTimeout(function() {
       let allFoodList: any = []
       for (const i of passArr){
@@ -126,7 +126,9 @@ export default function PickCategory({ navigation }) {
         alert('You should choose more category!');
       } else {
         let foodList: any = chooseRandom(allFoodList, 16);
-        navigation.navigate('WorldCup', {foodList: foodList, foodAlreadyPicked: [], categoryList: categoryList});
+        let sixteen: string = '16강';
+        let emptyList: any = [];
+        navigation.navigate('WorldCup', {foodList: foodList, foodAlreadyPicked: emptyList, categoryList: categoryList, stage: sixteen});
       }
       
     }, 500);

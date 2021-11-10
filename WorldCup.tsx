@@ -1,15 +1,82 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, Alert, BackHandler } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 
 
 export default function WorldCup({ navigation, route }) {
-  const { foodList } = route.params;
-  const { foodAlreadyPicked } = route.params;
+  let { foodList } = route.params;
+  let { foodAlreadyPicked } = route.params;
   const { categoryList } = route.params;
-  // 몇강인지는 음식 list의 길이로 판단?
-  let stage = ['16강', '8강', '4강', '준결승', '결승'];
+  let { stage } = route.params;
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to go back?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        // { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+  
+  const shuffle = (array: any) => {
+    array.sort(() => Math.random() - 0.5);
+  }
+
+  const pickFood = (num: number) => {
+    // 위쪽 아이템이 선택됨
+    if (num == 0) {
+      foodAlreadyPicked.push(foodList[foodList.length - 1]);
+    } else if (num == 1) {
+      foodAlreadyPicked.push(foodList[foodList.length - 2]);
+    }
+    foodList.pop();
+    foodList.pop();
+
+    if (foodList.length === 0) {
+      switch (foodAlreadyPicked.length) {
+        case 8:
+          foodList = foodAlreadyPicked;
+          shuffle(foodList);
+          foodAlreadyPicked = [];
+          stage = '8강';
+          break;
+        case 4:
+          foodList = foodAlreadyPicked;
+          shuffle(foodList);
+          foodAlreadyPicked = [];
+          stage = '4강';
+          break;
+        case 2:
+          foodList = foodAlreadyPicked;
+          shuffle(foodList);
+          foodAlreadyPicked = [];
+          stage = '결승';
+          break;
+        case 1:
+          console.log(`final one: ${foodAlreadyPicked[0].name}`)
+          navigation.navigate('Home');
+          return;
+        default:
+          console.log('Something Wrong');
+      }
+    }
+    console.log(foodAlreadyPicked)
+    console.log(`Length of foodList: ${foodList.length} and Length of foodAlreadyPicked: ${foodAlreadyPicked.length}`);
+    navigation.push('WorldCup', { foodList: foodList, foodAlreadyPicked: foodAlreadyPicked, categoryList: categoryList, stage: stage})
+  }
 
   return (
     <View style={styles.container}>
@@ -21,31 +88,30 @@ export default function WorldCup({ navigation, route }) {
       </View>
 
       <View style={styles.body}>
-        {/* 여기 value[0~4] 컨트롤 해야함 조건문?으로*/}
-        <Text style={[styles.font, {fontSize: 40, color: 'black'}]}>{stage[0]}</Text>
+        <Text style={[styles.font, {fontSize: 40, color: 'black'}]}>{stage}</Text>
         {/* 이 onPress함수에서 list 뒤에 2개 pop하고 navigate*/}
-        <TouchableOpacity onPress={() => navigation.push('WorldCup', { foodList: foodList})}>
+        <TouchableOpacity onPress={() => pickFood(0) }>
           <View>
             <ImageBackground
               source={{
                 uri: foodList[foodList.length - 1].image
               }}
               style={{width: 170, height: 170, justifyContent: 'center'}}
-              imageStyle={{borderRadius: 90}}
+              imageStyle={{borderRadius: 85}}
             >
               <Text style={styles.textOnPicture}>{foodList[foodList.length - 1].name}</Text>
             </ImageBackground>
           </View>
         </TouchableOpacity>
         <Text style={[styles.font, {fontSize: 40, color: '#0E4A84'}]}>vs</Text>
-        <TouchableOpacity onPress={() => navigation.push('WorldCup', { foodList: foodList})}>
+        <TouchableOpacity onPress={() => pickFood(1) }>
           <View>
             <ImageBackground
               source={{
                 uri: foodList[foodList.length - 2].image
               }}
               style={{width: 170, height: 170, justifyContent: 'center'}}
-              imageStyle={{borderRadius: 90}}
+              imageStyle={{borderRadius: 85}}
               >
               <Text style={styles.textOnPicture}>{foodList[foodList.length - 2].name}</Text>
             </ImageBackground>
