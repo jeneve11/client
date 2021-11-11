@@ -57,13 +57,10 @@ const categoryData = [
 
 
 export default function PickCategory({ navigation }) {
-  // const [isLoading, setLoading] = useState(true);
-  // const [data, setData] = useState([]);
-
   const [touchCount, setTouchCount] = useState(0)
 
-
-  const chooseRandom = (arr, num = 1) => {
+  // n(n>16)개의 메뉴 중 16개를 뽑아서 추출해주는 함수
+  const chooseRandom = (arr: any, num = 1) => {
     const res = [];
     for(let i = 0; i < num; ){
        const random = Math.floor(Math.random() * arr.length);
@@ -128,15 +125,18 @@ export default function PickCategory({ navigation }) {
         let foodList: any = chooseRandom(allFoodList, 16);
         let sixteen: string = '16강';
         let emptyList: any = [];
-        navigation.navigate('WorldCup', {foodList: foodList, foodAlreadyPicked: emptyList, categoryList: categoryList, stage: sixteen});
+        let emptyArray: any = [];
+        navigation.navigate('WorldCup', {foodList: foodList, foodAlreadyPicked: emptyList, foodNotPicked: emptyArray, categoryList: categoryList, stage: sixteen});
       }
       
     }, 500);
   }
 
+  // 카테고리를 눌렀을 때 호출되는 함수
   const onPressFunc = (item: any) => {
     item.isPicked = !item.isPicked;
     setTouchCount(touchCount + 1);
+    console.log(`Touched: ${item.id}`)
   }
 
   const renderItem = ( {item}: any ) => (

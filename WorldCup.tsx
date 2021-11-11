@@ -7,19 +7,22 @@ import { StatusBar } from 'expo-status-bar'
 export default function WorldCup({ navigation, route }) {
   let { foodList } = route.params;
   let { foodAlreadyPicked } = route.params;
+  let { foodNotPicked } = route.params;
   const { categoryList } = route.params;
   let { stage } = route.params;
 
   useEffect(() => {
     const backAction = () => {
-      Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      
+      /*[
         {
           text: "Cancel",
           onPress: () => null,
           style: "cancel"
         },
         // { text: "YES", onPress: () => BackHandler.exitApp() }
-      ]);
+      ]*/
+      Alert.alert("잠시만요!", "메뉴 선택 중에는 뒤로 가기 버튼을 이용하실 수 없습니다!"); 
       return true;
     };
 
@@ -31,6 +34,18 @@ export default function WorldCup({ navigation, route }) {
     return () => backHandler.remove();
   }, []);
   
+  // 아마도 안쓰일듯?
+  const changeSlashToHyphen = (foodName: string) => {
+    // '/'가 존재하는 case
+    if (foodName.indexOf('/') !== -1) {
+      return foodName.replace('/', '-');
+    }
+    else {
+      return foodName;
+    }
+  }
+  
+
   const shuffle = (array: any) => {
     array.sort(() => Math.random() - 0.5);
   }
@@ -39,8 +54,10 @@ export default function WorldCup({ navigation, route }) {
     // 위쪽 아이템이 선택됨
     if (num == 0) {
       foodAlreadyPicked.push(foodList[foodList.length - 1]);
+      foodNotPicked.push(foodList[foodList.length - 2].name);
     } else if (num == 1) {
       foodAlreadyPicked.push(foodList[foodList.length - 2]);
+      foodNotPicked.push(foodList[foodList.length - 1].name);
     }
     foodList.pop();
     foodList.pop();
@@ -66,16 +83,17 @@ export default function WorldCup({ navigation, route }) {
           stage = '결승';
           break;
         case 1:
-          console.log(`final one: ${foodAlreadyPicked[0].name}`)
-          navigation.navigate('Home');
+          let finalOne = foodAlreadyPicked[0];
+          console.log(`final one: ${finalOne.name}`);
+          navigation.navigate('Result', {finalOne: finalOne, foodNotPicked: foodNotPicked});
           return;
         default:
           console.log('Something Wrong');
       }
     }
     console.log(foodAlreadyPicked)
-    console.log(`Length of foodList: ${foodList.length} and Length of foodAlreadyPicked: ${foodAlreadyPicked.length}`);
-    navigation.push('WorldCup', { foodList: foodList, foodAlreadyPicked: foodAlreadyPicked, categoryList: categoryList, stage: stage})
+    console.log(`Length of foodList: ${foodList.length} and Length of foodAlreadyPicked: ${foodAlreadyPicked.length} and foodNotPicked: ${foodNotPicked}`);
+    navigation.push('WorldCup', { foodList: foodList, foodAlreadyPicked: foodAlreadyPicked, foodNotPicked: foodNotPicked, categoryList: categoryList, stage: stage})
   }
 
   return (
@@ -89,14 +107,14 @@ export default function WorldCup({ navigation, route }) {
 
       <View style={styles.body}>
         <Text style={[styles.font, {fontSize: 40, color: 'black'}]}>{stage}</Text>
-        {/* 이 onPress함수에서 list 뒤에 2개 pop하고 navigate*/}
         <TouchableOpacity onPress={() => pickFood(0) }>
           <View>
             <ImageBackground
               source={{
                 uri: foodList[foodList.length - 1].image
+                //'https://momock-assets.s3.ap-northeast-2.amazonaws.com/%e1%84%8c%e1%85%ae%e1%86%bc%e1%84%89%e1%85%b5%e1%86%a8%2f%e1%84%90%e1%85%a1%e1%86%bc%e1%84%89%e1%85%ae%e1%84%8b%e1%85%b2%e1%86%a8%2c+%e1%84%81%e1%85%af%e1%84%87%e1%85%a1%e1%84%85%e1%85%a9%e1%84%8b%e1%85%ae.jpg'
               }}
-              style={{width: 170, height: 170, justifyContent: 'center'}}
+              style={{width: 170, height: 170, justifyContent: 'center', opacity: 0.7}}
               imageStyle={{borderRadius: 85}}
             >
               <Text style={styles.textOnPicture}>{foodList[foodList.length - 1].name}</Text>
@@ -110,7 +128,7 @@ export default function WorldCup({ navigation, route }) {
               source={{
                 uri: foodList[foodList.length - 2].image
               }}
-              style={{width: 170, height: 170, justifyContent: 'center'}}
+              style={{width: 170, height: 170, justifyContent: 'center', opacity: 0.7}}
               imageStyle={{borderRadius: 85}}
               >
               <Text style={styles.textOnPicture}>{foodList[foodList.length - 2].name}</Text>
@@ -122,8 +140,7 @@ export default function WorldCup({ navigation, route }) {
       {/*여기에 밑부분 해시태그 작성해야함 근데 갯수가 그때그때 달라서 좀 어려울듯 - 메인기능 다 구현하고 하자*/}
       <View style={[styles.body, {flex:1.5, backgroundColor: 'pink', flexDirection: 'column'}]}>
         <View>
-          <Text>{categoryList}</Text>
-          <Text>{foodList[foodList.length - 1].name}</Text>
+          <Text>{JSON.stringify(categoryList)}</Text>
         </View>
       </View>
 

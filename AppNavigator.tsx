@@ -8,6 +8,8 @@ import HowTo from './HowTo';
 import HashTag from './HashTag';
 import PickCategory from './PickCategory';
 import WorldCup from './WorldCup';
+import Result from './Result';
+import Final from './Final';
 
 
 const Stack = createNativeStackNavigator();
@@ -22,6 +24,8 @@ export default function AppNavigator() {
         <Stack.Screen name="HashTag" component={HashTag} options={{headerShown: false}}/>
         <Stack.Screen name="PickCategory" component={PickCategory} options={{headerShown: false}}/>
         <Stack.Screen name="WorldCup" component={WorldCup} options={{headerShown: false, animation: 'slide_from_right', headerLeft: () => null}}/>
+        <Stack.Screen name="Result" component={Result} options={{headerShown: false}}/>
+        <Stack.Screen name="Final" component={Final} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

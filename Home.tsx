@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   body: {
-    flexDirection:'row',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
