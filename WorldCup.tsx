@@ -14,14 +14,14 @@ export default function WorldCup({ navigation, route }) {
   useEffect(() => {
     const backAction = () => {
       
-      /*[
+      [
         {
           text: "Cancel",
           onPress: () => null,
           style: "cancel"
         },
         // { text: "YES", onPress: () => BackHandler.exitApp() }
-      ]*/
+      ]
       Alert.alert("잠시만요!", "메뉴 선택 중에는 뒤로 가기 버튼을 이용하실 수 없습니다!"); 
       return true;
     };

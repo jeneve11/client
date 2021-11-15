@@ -109,7 +109,7 @@ export default function PickCategory({ navigation }) {
     }
     console.log(categoryList);
     let passArr = getFoodList(categoryList);
-    // setTimeout 1초 줌 - Promise 객체가 완전히 object로 전환되기를 대기
+    // setTimeout 0.5초 줌 - Promise 객체가 완전히 object로 전환되기를 대기
     setTimeout(function() {
       let allFoodList: any = []
       for (const i of passArr){
@@ -164,7 +164,11 @@ export default function PickCategory({ navigation }) {
         <Text style={[styles.font, {color: '#898C8E', fontSize: 55, textAlign: 'center'}]}>오늘은 안 땡겨!</Text>
       </View>
       <View style={styles.body}>
-        <Text style={[styles.font, {fontSize: 48}]}>카테고리 담기</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Final', {finalFood: '피자'})}>
+          <View>
+            <Text style={[styles.font, {fontSize: 48}]}>카테고리 담기</Text>
+          </View>
+        </TouchableOpacity>
       </View>
       <View style={[styles.body, {flex: 25}]}>
         <FlatList

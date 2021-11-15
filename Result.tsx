@@ -40,9 +40,9 @@ export default function Result({ navigation, route }) {
       <View style={styles.tail}>
         <View style={styles.textBox}>
           <Text style={[styles.font, {color: '#898C8E', fontSize: 20, letterSpacing: -2}]}>오늘 안 땡기는 순위 {'\n'}</Text>
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: 120}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: 115}}>
             <Text style={[styles.font, {fontSize: 20, letterSpacing: -2}]}>1위</Text>
-            <Text style={[styles.font, {color: 'black', fontSize: 20, letterSpacing: -2, paddingLeft: 10}]}>{foodNotPicked[0]}</Text>
+            <Text style={[styles.font, {color: 'black', fontSize: 20, letterSpacing: -2, paddingLeft: 8}]}>{foodNotPicked[0]}</Text>
           </View>
         </View>
       </View>
