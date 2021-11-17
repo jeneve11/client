@@ -11,9 +11,9 @@ export default function WorldCup({ navigation, route }) {
   const { categoryList } = route.params;
   let { stage } = route.params;
 
+
   useEffect(() => {
     const backAction = () => {
-      
       [
         {
           text: "Cancel",
@@ -112,10 +112,9 @@ export default function WorldCup({ navigation, route }) {
             <ImageBackground
               source={{
                 uri: foodList[foodList.length - 1].image
-                //'https://momock-assets.s3.ap-northeast-2.amazonaws.com/%e1%84%8c%e1%85%ae%e1%86%bc%e1%84%89%e1%85%b5%e1%86%a8%2f%e1%84%90%e1%85%a1%e1%86%bc%e1%84%89%e1%85%ae%e1%84%8b%e1%85%b2%e1%86%a8%2c+%e1%84%81%e1%85%af%e1%84%87%e1%85%a1%e1%84%85%e1%85%a9%e1%84%8b%e1%85%ae.jpg'
               }}
-              style={{width: 170, height: 170, justifyContent: 'center', opacity: 0.7}}
-              imageStyle={{borderRadius: 85}}
+              style={{width: 180, height: 180, justifyContent: 'center', opacity: 0.7}}
+              imageStyle={{borderRadius: 90}}
             >
               <Text style={styles.textOnPicture}>{foodList[foodList.length - 1].name}</Text>
             </ImageBackground>
@@ -128,8 +127,8 @@ export default function WorldCup({ navigation, route }) {
               source={{
                 uri: foodList[foodList.length - 2].image
               }}
-              style={{width: 170, height: 170, justifyContent: 'center', opacity: 0.7}}
-              imageStyle={{borderRadius: 85}}
+              style={{width: 180, height: 180, justifyContent: 'center', opacity: 0.7}}
+              imageStyle={{borderRadius: 90}}
               >
               <Text style={styles.textOnPicture}>{foodList[foodList.length - 2].name}</Text>
             </ImageBackground>
@@ -137,10 +136,11 @@ export default function WorldCup({ navigation, route }) {
         </TouchableOpacity>
       </View>
 
-      {/*여기에 밑부분 해시태그 작성해야함 근데 갯수가 그때그때 달라서 좀 어려울듯 - 메인기능 다 구현하고 하자*/}
-      <View style={[styles.body, {flex:1.5, backgroundColor: 'pink', flexDirection: 'column'}]}>
-        <View>
-          <Text>{JSON.stringify(categoryList)}</Text>
+      <View style={[styles.body, {flex: 1.5, alignItems: 'flex-start', justifyContent: 'center'}]}>
+        <View style= {{flexDirection: 'row', paddingHorizontal: 10}}>
+          {categoryList.map((category: any) => (
+            <Box categoryName={category} />
+          ))}
         </View>
       </View>
 
@@ -152,21 +152,27 @@ export default function WorldCup({ navigation, route }) {
           <Image source={require('./assets/icon/home.png')} style={styles.image}/>
         </TouchableOpacity>
       </View>
-
     </View>
   )
 }
 
+function Box( {categoryName}: any ) {
+  let BoxStyle = categoryName.length === 5 ? styles.textBox5 : styles.textBox;
+  return (
+    <View style={BoxStyle}>
+      <Text style ={{fontFamily: 'MaruBuri-Regular', letterSpacing: -1}}>{`#${categoryName}`}</Text>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //backgroundColor: 'white',
+    backgroundColor: 'white',
     marginTop: getStatusBarHeight(),
   },
   header: {
-    flex: 5,
-    backgroundColor: 'red'
+    flex: 4,
   },
   font: {
     fontFamily: 'MaruBuri-Regular',
@@ -176,9 +182,8 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 12,
-    //justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'grey',
+    //backgroundColor: 'grey',
   },
   tail: {
     flex: 1.5,
@@ -194,7 +199,30 @@ const styles = StyleSheet.create({
   textOnPicture: {
     fontFamily: 'MaruBuri-Regular',
     color: "black",
-    fontSize: 25,
+    fontSize: 35,
     textAlign: "center",
+    letterSpacing: -2,
+  },
+  textBox: {
+    height: 30,
+    width: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#A5A5A5',
+    marginLeft: 13,
+  },
+  textBox5: {
+    height: 30,
+    width: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#A5A5A5',
+    marginLeft: 13,
   },
 })

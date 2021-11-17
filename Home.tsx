@@ -36,13 +36,17 @@ export default class Home extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={{flex: 5}}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('HashTag')
-          }>
-            <View style={[styles.body, {flexWrap: 'wrap'}]}>
-              <Image source={require('./assets/icon/hashtag.png')} style={[styles.image, {backgroundColor: '#f5f5f5', borderRadius: 20}]}/>
-              <Text style={styles.content}> 해시태그로</Text>
-              <Text style={styles.content}>           검색하기</Text>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('HashTag')}>
+            <View style={styles.body}>
+              <View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image source={require('./assets/icon/hashtag.png')} style={[styles.image, {backgroundColor: '#F5F5F5', borderRadius: 20}]}/>
+                  <Text style={styles.content}> 해시태그로</Text>
+                </View>
+                <View style={{alignItems: 'flex-end'}}>
+                  <Text style={[styles.content]}>검색하기</Text>
+                </View>
+              </View>
             </View>
           </TouchableOpacity>
         </View>

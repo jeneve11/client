@@ -5,12 +5,7 @@ import { StatusBar } from 'expo-status-bar'
 import { FlatList } from 'react-native-gesture-handler';
 import AppLoading from 'expo-app-loading';
 
-// 음식점 주소, 전화번호 issue - 창회형에게 문의필요...
-// 홈키 이슈
-// 카테고리 어케 찾냐... 이건 그냥 for
-// 이름 같은 집 처리...
-
-export default function Final({ navigation, route }) {
+export default function HashTagFinal({ navigation, route }) {
   const [isLoaded, setLoad] = useState(false);
   const [data, setData] = useState([]);
   const { finalFood } = route.params;

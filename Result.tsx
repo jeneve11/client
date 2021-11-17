@@ -32,7 +32,7 @@ export default function Result({ navigation, route }) {
               <Text style={[styles.font, {color: '#898C8E', fontSize: 20, letterSpacing: -2}]}>오늘 어디 가지?</Text>
             </View>
             <View style={{flex: 2}}>
-              <Image source={require('./assets/icon/person.png')} style={[styles.image, {backgroundColor: '#f5f5f5', borderRadius: 20}]}/>
+              <Image source={require('./assets/icon/person.png')} style={[styles.image, {backgroundColor: '#F5F5F5', borderRadius: 20}]}/>
             </View>
           </View>
         </View>
@@ -47,8 +47,6 @@ export default function Result({ navigation, route }) {
         </View>
       </View>
     </View>
-    // <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-
   )
 }
 
