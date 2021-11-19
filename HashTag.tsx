@@ -16,26 +16,52 @@ export default function HashTag({ navigation: { navigate } }) {
         <Text style={[styles.font, {fontSize: 45, paddingRight: 15}]}>해시태그로</Text>
         <Text style={[styles.font, {fontSize: 45, paddingRight: 10}]}>검색하기</Text>
       </View>
-      <View style={styles.body}>
-        <TouchableOpacity onPress={() => navigation.navigate('HashTagFinal', {tag: "혼밥"})}>
-          <Text>혼밥</Text>
-        </TouchableOpacity>
+      <View style={{flex: 3}}>
 
+      </View>
+
+      <View style={[styles.body, {alignItems: 'flex-end', justifyContent: 'flex-start', paddingRight: 15}]}>
+        <View style={{flexDirection: 'row', paddingVertical: 10}}>
+          <TouchableOpacity onPress={() => navigation.navigate('HashTagFinal', {tag: '혼밥'})}>
+            <Box tagName={'혼밥'} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('HashTagFinal', {tag: '숙취'})}>
+            <Box tagName={'숙취'} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('HashTagFinal', {tag: '면'})}>
+            <Box tagName={'면'} />
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', paddingVertical: 10}}>
+          <TouchableOpacity onPress={() => navigation.navigate('HashTagFinal', {tag: '간단'})}>
+            <Box tagName={'간단'} />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )
 }
 
+function Box( {tagName}: any ) {
+  // let BoxStyle = categoryName.length === 5 ? styles.textBox5 : styles.textBox;
+  return (
+    <View style={styles.textBox}>
+      <Text style ={{fontFamily: 'MaruBuri-Regular', letterSpacing: -1, fontSize: 17}}>{`#${tagName}`}</Text>
+    </View>
+  );
+}
+
+
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'white',
+    backgroundColor: 'white',
     marginTop: getStatusBarHeight(),
   },
   header: {
     flex: 6,
-    backgroundColor: 'grey'
   },
   font: {
     fontFamily: 'MaruBuri-Regular',
@@ -45,23 +71,20 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   body: {
-    flex: 12,
+    flex: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'yellow',
-  },
+  }, 
   textBox: {
-    flex: 1,
-    width: '83%',
-    height: 140,
+    height: 35,
+    width: 70,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'white',
-    //borderRadius: 20,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: '#A5A5A5',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    alignSelf: 'center'
+    marginLeft: 13,
   },
   tail: {
     flex: 2,

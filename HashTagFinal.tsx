@@ -8,7 +8,7 @@ import AppLoading from 'expo-app-loading';
 export default function HashTagFinal({ navigation, route }) {
   const [isLoaded, setLoad] = useState(false);
   const [data, setData] = useState([]);
-  const { finalFood } = route.params;
+  const { tag } = route.params;
 
 
   const numberWithCommas = (x: any) => {
