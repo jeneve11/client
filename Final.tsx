@@ -6,9 +6,9 @@ import { FlatList } from 'react-native-gesture-handler';
 import AppLoading from 'expo-app-loading';
 
 // 음식점 주소, 전화번호 issue - 창회형에게 문의필요...
-// 홈키 이슈
+// back키 이슈
 // 카테고리 어케 찾냐... 이건 그냥 for
-// 이름 같은 집 처리...
+// 이름 같은 음식점 처리...
 
 export default function Final({ navigation, route }) {
   const [isLoaded, setLoad] = useState(false);

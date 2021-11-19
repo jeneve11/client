@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, Alert, BackHandler } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 
@@ -38,16 +38,31 @@ export default function Result({ navigation, route }) {
         </View>
       </TouchableOpacity>
       <View style={styles.tail}>
-        <View style={styles.textBox}>
-          <Text style={[styles.font, {color: '#898C8E', fontSize: 20, letterSpacing: -2}]}>오늘 안 땡기는 순위 {'\n'}</Text>
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: 115}}>
-            <Text style={[styles.font, {fontSize: 20, letterSpacing: -2}]}>1위</Text>
-            <Text style={[styles.font, {color: 'black', fontSize: 20, letterSpacing: -2, paddingLeft: 8}]}>{foodNotPicked[0]}</Text>
+        <ScrollView style={styles.textBox}>
+          <Text style={[styles.font, {color: '#898C8E', fontSize: 20, letterSpacing: -2, paddingTop: 11}]}>오늘 안 땡기는 순위 {'\n'}</Text>
+          <View>
+            {foodNotPicked.map((food: any, index: any) => (
+              <Rank food={food} key={index} index={index} />
+            ))}
           </View>
-        </View>
+        </ScrollView>
       </View>
     </View>
   )
+}
+
+
+
+
+function Rank( {food, index}: any) {
+  // let BoxStyle = categoryName.length === 5 ? styles.textBox5 : styles.textBox;
+  return (
+    // <Text style ={{fontFamily: 'MaruBuri-Regular', letterSpacing: -1}}>{`#${categoryName}`}</Text>
+    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: 115}}>
+      <Text style={[styles.font, {fontSize: 20, letterSpacing: -2}]}>{`${index+1}위`}</Text>
+      <Text style={[styles.font, {color: 'black', fontSize: 20, letterSpacing: -2, paddingLeft: 8}]}>{food}</Text>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

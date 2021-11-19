@@ -57,6 +57,8 @@ const categoryData = [
 
 
 export default function PickCategory({ navigation }) {
+  const [isLoaded, setLoad] = useState(false);
+  const [data, setData] = useState([]);
   const [touchCount, setTouchCount] = useState(0)
 
   // n(n>16)개의 메뉴 중 16개를 뽑아서 추출해주는 함수
@@ -71,7 +73,7 @@ export default function PickCategory({ navigation }) {
        i++;
     };
     return res;
- };
+  };
 
   const optionStyle = (item: any) => {
     return item.isPicked ? styles.picked : styles.notPicked
@@ -107,7 +109,8 @@ export default function PickCategory({ navigation }) {
         categoryList.push(categoryData[num].id);
       }
     }
-    console.log(categoryList);
+    //
+    console.log(`List of categories: ${categoryList}`);
     let passArr = getFoodList(categoryList);
     // setTimeout 0.5초 줌 - Promise 객체가 완전히 object로 전환되기를 대기
     setTimeout(function() {
@@ -117,6 +120,7 @@ export default function PickCategory({ navigation }) {
           allFoodList.push(j);
         }
       }
+      //
       console.log(`Length of the allFoodList: ${allFoodList.length}`);
 
       if (allFoodList.length < 16) {

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, Alert, BackHandler } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, Alert, BackHandler, Pressable } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
+import { PressableOpacity } from 'react-native-pressable-opacity';
 
 
 export default function WorldCup({ navigation, route }) {
@@ -11,7 +12,7 @@ export default function WorldCup({ navigation, route }) {
   const { categoryList } = route.params;
   let { stage } = route.params;
 
-
+  // 뒤로가기 키 이용 금지
   useEffect(() => {
     const backAction = () => {
       [
@@ -45,6 +46,24 @@ export default function WorldCup({ navigation, route }) {
     }
   }
   
+  // 꾹 누르기, 모달 창 구현해야 할듯, pres
+  const pickFoodAsFinal = (num: number) => {
+
+
+
+    if (num === 0) {
+      foodAlreadyPicked.push(foodList[foodList.length - 1]);
+      foodNotPicked.push(foodList[foodList.length - 2].name);
+    } else if (num === 1) {
+      foodAlreadyPicked.push(foodList[foodList.length - 2]);
+      foodNotPicked.push(foodList[foodList.length - 1].name);
+    }
+    let finalOne = foodAlreadyPicked[0];
+    console.log(`final One: ${finalOne.name}`);
+    navigation.navigate('Result', {finalOne: finalOne, foodNotPicked: foodNotPicked});
+
+    return;
+  }
 
   const shuffle = (array: any) => {
     array.sort(() => Math.random() - 0.5);
@@ -52,10 +71,10 @@ export default function WorldCup({ navigation, route }) {
 
   const pickFood = (num: number) => {
     // 위쪽 아이템이 선택됨
-    if (num == 0) {
+    if (num === 0) {
       foodAlreadyPicked.push(foodList[foodList.length - 1]);
       foodNotPicked.push(foodList[foodList.length - 2].name);
-    } else if (num == 1) {
+    } else if (num === 1) {
       foodAlreadyPicked.push(foodList[foodList.length - 2]);
       foodNotPicked.push(foodList[foodList.length - 1].name);
     }
@@ -84,7 +103,7 @@ export default function WorldCup({ navigation, route }) {
           break;
         case 1:
           let finalOne = foodAlreadyPicked[0];
-          console.log(`final one: ${finalOne.name}`);
+          console.log(`final One: ${finalOne.name}`);
           navigation.navigate('Result', {finalOne: finalOne, foodNotPicked: foodNotPicked});
           return;
         default:
@@ -107,7 +126,7 @@ export default function WorldCup({ navigation, route }) {
 
       <View style={styles.body}>
         <Text style={[styles.font, {fontSize: 40, color: 'black'}]}>{stage}</Text>
-        <TouchableOpacity onPress={() => pickFood(0) }>
+        <PressableOpacity onPress={() => pickFood(0) } onLongPress={() => pickFoodAsFinal(0)}>
           <View>
             <ImageBackground
               source={{
@@ -119,9 +138,9 @@ export default function WorldCup({ navigation, route }) {
               <Text style={styles.textOnPicture}>{foodList[foodList.length - 1].name}</Text>
             </ImageBackground>
           </View>
-        </TouchableOpacity>
+        </PressableOpacity>
         <Text style={[styles.font, {fontSize: 40, color: '#0E4A84'}]}>vs</Text>
-        <TouchableOpacity onPress={() => pickFood(1) }>
+        <PressableOpacity onPress={() => pickFood(1) } onLongPress={() => pickFoodAsFinal(1)}>
           <View>
             <ImageBackground
               source={{
@@ -133,13 +152,13 @@ export default function WorldCup({ navigation, route }) {
               <Text style={styles.textOnPicture}>{foodList[foodList.length - 2].name}</Text>
             </ImageBackground>
           </View>
-        </TouchableOpacity>
+        </PressableOpacity>
       </View>
 
       <View style={[styles.body, {flex: 1.5, alignItems: 'flex-start', justifyContent: 'center'}]}>
         <View style= {{flexDirection: 'row', paddingHorizontal: 10}}>
-          {categoryList.map((category: any) => (
-            <Box categoryName={category} />
+          {categoryList.map((category: any, index: any) => (
+            <Box categoryName={category} key={index} />
           ))}
         </View>
       </View>

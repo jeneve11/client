@@ -4940,7 +4940,12 @@
     "invariant" "^2.2.4"
     "prop-types" "^15.7.2"
 
-"react-native-reanimated@~2.2.0":
+"react-native-pressable-opacity@^1.0.8":
+  "integrity" "sha512-+/ne3ulMgYwG/FHzDSBbGFRRXgGdkTTzDsWxZiQCyj1ku14JabH1bfoGlrijQeDsv0vwEX13JrT6MnoIg0FBJA=="
+  "resolved" "https://registry.npmjs.org/react-native-pressable-opacity/-/react-native-pressable-opacity-1.0.8.tgz"
+  "version" "1.0.8"
+
+"react-native-reanimated@>= 2", "react-native-reanimated@~2.2.0":
   "integrity" "sha512-d+BV39Jp4Om0ZkgVjop672/004ytlTfDT01EloO3HFZs9wR2QTuCjekq8yi3xl0G2xGZKd4DXhvqabIa7OnMYA=="
   "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.2.3.tgz"
   "version" "2.2.3"
@@ -4980,7 +4985,7 @@
     "normalize-css-color" "^1.0.2"
     "prop-types" "^15.6.0"
 
-"react-native@*", "react-native@>=0.57", "react-native@>=0.64.0-rc.0 || 0.0.0-*", "react-native@0.64.2":
+"react-native@*", "react-native@>= 0.63", "react-native@>=0.57", "react-native@>=0.64.0-rc.0 || 0.0.0-*", "react-native@0.64.2":
   "integrity" "sha512-Ty/fFHld9DcYsFZujXYdeVjEhvSeQcwuTGXezyoOkxfiGEGrpL/uwUZvMzwShnU4zbbTKDu2PAm/uwuOittRGA=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.64.2.tgz"
   "version" "0.64.2"
