@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 
@@ -60,6 +60,9 @@ export default function PickCategory({ navigation }) {
   const [isLoaded, setLoad] = useState(false);
   const [data, setData] = useState([]);
   const [touchCount, setTouchCount] = useState(0)
+  let arrCategory: any = [];
+  let arrFood: any = []
+
 
   // n(n>16)개의 메뉴 중 16개를 뽑아서 추출해주는 함수
   const chooseRandom = (arr: any, num = 1) => {
@@ -79,61 +82,88 @@ export default function PickCategory({ navigation }) {
     return item.isPicked ? styles.picked : styles.notPicked
   };
   
-  const getFoodList = (categoryList: Array<string>) => {
+
+  const asyncFunc = (category: string) => {
+    let promise = fetch(
+      `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${category}`)
+        .then(res => res.json())
+    return promise;
+  }
+
+  const loadAssets = async (categoryList: Array<string>) => {
     const foodArr: any = [];
     for (const category of categoryList) {
       try {
-        let promise = fetch(
-          `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${category}`)
-            .then(res => res.json())
-            //.then(funcData => console.log(funcData))
-        
-        promise.then((appData: any) => {
-          foodArr.push(appData);
-        });
-        // emptyArr.push(json.result);
-      } catch (error) {
-        console.error(error);
+        const result = await asyncFunc(category);
+        arrCategory.push(result.result.length);
+        foodArr.push(result.result);
+      } catch (err) {
+        console.log(err);
       }
     }
-    return foodArr;
-  };
 
+    return foodArr;
+  }
+
+  function range(start: number, end: number) {
+    let array = [];
+    for (let i = start; i < end; ++i) {
+      array.push(i);
+    }
+    return array;
+  }
+  
   // 우하단 화살표를 눌렀을 때 작동하는 함수 / 선택한 카테고리들에서 랜덤한 16개의 음식을 뽑아 WorldCup.tsx로 전달함
-  const funcPass = () => {
+  const funcPass = async () => {
     console.log('go to Worldcup.tsx');
     const categoryList: any = []
 
+    // categoryList 생성 - user가 선택한 category를 넣음
     for (const num of [0, 1, 2, 3, 4, 5, 6, 7]) {
       if (categoryData[num].isPicked === true) {
         categoryList.push(categoryData[num].id);
       }
     }
-    //
-    console.log(`List of categories: ${categoryList}`);
-    let passArr = getFoodList(categoryList);
-    // setTimeout 0.5초 줌 - Promise 객체가 완전히 object로 전환되기를 대기
-    setTimeout(function() {
-      let allFoodList: any = []
-      for (const i of passArr){
-        for (const j of i.result){
-          allFoodList.push(j);
-        }
-      }
-      //
-      console.log(`Length of the allFoodList: ${allFoodList.length}`);
 
-      if (allFoodList.length < 16) {
-        alert('You should choose more category!');
-      } else {
-        let foodList: any = chooseRandom(allFoodList, 16);
-        let sixteen: string = '16강';
-        let emptyList: any = [];
-        let emptyArray: any = [];
-        navigation.navigate('WorldCup', {foodList: foodList, foodAlreadyPicked: emptyList, foodNotPicked: emptyArray, categoryList: categoryList, stage: sixteen});
+    console.log(`List of categories: ${categoryList}`);
+    let passArr = await loadAssets(categoryList);
+
+    let allFoodList: any = []
+
+    console.log(arrCategory);
+    for (let index of range(0, arrCategory.length)){
+      if (!index) {
+        arrCategory[index] -= 1
+      } else if (index) {
+        arrCategory[index] += arrCategory[index - 1];
       }
-      
-    }, 500);
+    }
+    console.log(arrCategory);
+
+    console.log(passArr.length);
+    for (let category of passArr) {
+      for (let menu of category) {
+        allFoodList.push(menu);
+      }
+    }
+
+
+    for (const menu of allFoodList) {
+      arrFood.push(menu.name);
+    }
+
+    console.log(arrFood);
+    console.log(`Length of the allFoodList: ${allFoodList.length}`);
+    //console.log(allFoodList)
+   if (allFoodList.length < 16) {
+      alert('You should choose more category!');
+    } else {
+      let foodList: any = chooseRandom(allFoodList, 16);
+      let sixteen: string = '16강';
+      let emptyList: any = [];
+      let emptyArray: any = [];
+      navigation.navigate('WorldCup', {foodList: foodList, foodAlreadyPicked: emptyList, foodNotPicked: emptyArray, categoryList: categoryList, stage: sixteen, arrC: arrCategory, arrF: arrFood});
+    }
   }
 
   // 카테고리를 눌렀을 때 호출되는 함수
@@ -257,4 +287,4 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     justifyContent: 'space-between'
   },
-})
+});

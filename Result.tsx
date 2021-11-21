@@ -7,7 +7,12 @@ import { StatusBar } from 'expo-status-bar'
 export default function Result({ navigation, route }) {
   let { finalOne } = route.params;
   let { foodNotPicked } = route.params;
+  const { categoryList } = route.params;
+  const { arrC } = route.params;
+  const { arrF } = route.params;
 
+  let ca = arrC;
+  let fa = arrF;
   let finalFood = finalOne.name;
 
 
@@ -20,7 +25,7 @@ export default function Result({ navigation, route }) {
         <Text style={[styles.font, {color: '#898C8E', fontSize: 55}]}>오늘은 안 땡겨!</Text>
       </View>
 
-      <TouchableOpacity style={styles.body} onPress={() => navigation.navigate('Final', {finalFood: finalFood})}>
+      <TouchableOpacity style={styles.body} onPress={() => navigation.navigate('Final', {finalFood: finalOne, categoryList: categoryList, arrC: ca, arrF: fa})}>
         <View style={styles.textBox}>
           <View style={{flex: 4, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap'}}>
             <Text style={[styles.font, {color: '#898C8E', fontSize: 20, letterSpacing: -2}]}>오늘의 메뉴는</Text>

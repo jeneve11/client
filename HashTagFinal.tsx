@@ -8,7 +8,7 @@ import AppLoading from 'expo-app-loading';
 export default function HashTagFinal({ navigation, route }) {
   const [isLoaded, setLoad] = useState(false);
   const [data, setData] = useState([]);
-  const { tag } = route.params;
+  const { hashData } = route.params;
 
 
   const numberWithCommas = (x: any) => {
@@ -17,7 +17,7 @@ export default function HashTagFinal({ navigation, route }) {
 
   const asyncFunc = () => {
     let promise = fetch(
-      'https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/패스트푸드/피자')
+      `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/tag?t=${hashData}`)
         .then(res => res.json())
     return promise;
   }

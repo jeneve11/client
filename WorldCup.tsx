@@ -11,7 +11,11 @@ export default function WorldCup({ navigation, route }) {
   let { foodNotPicked } = route.params;
   const { categoryList } = route.params;
   let { stage } = route.params;
+  const { arrC } = route.params;
+  const { arrF } = route.params;
 
+
+/*
   // 뒤로가기 키 이용 금지
   useEffect(() => {
     const backAction = () => {
@@ -33,34 +37,24 @@ export default function WorldCup({ navigation, route }) {
     );
 
     return () => backHandler.remove();
-  }, []);
-  
-  // 아마도 안쓰일듯?
-  const changeSlashToHyphen = (foodName: string) => {
-    // '/'가 존재하는 case
-    if (foodName.indexOf('/') !== -1) {
-      return foodName.replace('/', '-');
-    }
-    else {
-      return foodName;
-    }
-  }
-  
-  // 꾹 누르기, 모달 창 구현해야 할듯, pres
+  }, []);*/
+    
+  // 꾹 누르기, 모달 창 구현해야 할 듯
   const pickFoodAsFinal = (num: number) => {
-
-
-
+    let finalOne;
     if (num === 0) {
       foodAlreadyPicked.push(foodList[foodList.length - 1]);
       foodNotPicked.push(foodList[foodList.length - 2].name);
+      finalOne = foodList[foodList.length - 1];
     } else if (num === 1) {
       foodAlreadyPicked.push(foodList[foodList.length - 2]);
       foodNotPicked.push(foodList[foodList.length - 1].name);
+      finalOne = foodList[foodList.length - 2];
     }
-    let finalOne = foodAlreadyPicked[0];
+    
+    console.log(`arrC : ${arrC} arrF: ${arrF}`)
     console.log(`final One: ${finalOne.name}`);
-    navigation.navigate('Result', {finalOne: finalOne, foodNotPicked: foodNotPicked});
+    navigation.navigate('Result', {finalOne: finalOne, foodNotPicked: foodNotPicked, categoryList: categoryList, arrC: arrC, arrF: arrF});
 
     return;
   }
@@ -104,15 +98,16 @@ export default function WorldCup({ navigation, route }) {
         case 1:
           let finalOne = foodAlreadyPicked[0];
           console.log(`final One: ${finalOne.name}`);
-          navigation.navigate('Result', {finalOne: finalOne, foodNotPicked: foodNotPicked});
+          navigation.navigate('Result', {finalOne: finalOne, foodNotPicked: foodNotPicked, categoryList: categoryList, arrC: arrC, arrF: arrF});
           return;
         default:
           console.log('Something Wrong');
       }
     }
+    console.log(`arrC : ${arrC} arrF: ${arrF}`)
     console.log(foodAlreadyPicked)
     console.log(`Length of foodList: ${foodList.length} and Length of foodAlreadyPicked: ${foodAlreadyPicked.length} and foodNotPicked: ${foodNotPicked}`);
-    navigation.push('WorldCup', { foodList: foodList, foodAlreadyPicked: foodAlreadyPicked, foodNotPicked: foodNotPicked, categoryList: categoryList, stage: stage})
+    navigation.push('WorldCup', { foodList: foodList, foodAlreadyPicked: foodAlreadyPicked, foodNotPicked: foodNotPicked, categoryList: categoryList, stage: stage, arrC: arrC, arrF: arrF})
   }
 
   return (

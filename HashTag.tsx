@@ -1,11 +1,15 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import RNPickerSelect from 'react-native-picker-select';
+import { NavigationContainer } from '@react-navigation/native';
 
 
 export default function HashTag({ navigation: { navigate } }) {
+  const [hashData, setHashData] = useState('?');
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='white' />
@@ -16,42 +20,31 @@ export default function HashTag({ navigation: { navigate } }) {
         <Text style={[styles.font, {fontSize: 45, paddingRight: 15}]}>해시태그로</Text>
         <Text style={[styles.font, {fontSize: 45, paddingRight: 10}]}>검색하기</Text>
       </View>
-      <View style={{flex: 3}}>
-
+      <View style={{flex: 2, flexDirection: 'row',  justifyContent: 'space-evenly', alignItems: 'center'}}>
+        <RNPickerSelect
+          placeholder= {{
+            label: '키워드를 입력하세요.',
+          }}
+          onValueChange={(value) => setHashData(value)}
+          fixAndroidTouchableBug={true}
+          useNativeAndroidPickerStyle={false}
+          items={[
+            { label: '혼밥', value: 'solo', key: 'solo'},
+            { label: '숙취', value: 'hangover', key: 'hangover'},
+            { label: '면', value: 'noodle', key: 'noodle'},
+            { label: '간단하게', value: 'simple', key: 'simple'},
+          ]}
+          style={styles}
+        />
+        <TouchableOpacity onPress={() => navigation.navigate('HashTagFinal', {hashData: hashData})}>
+          <Image source={require('./assets/icon/magnifying_glass.png')} style={[styles.image, {backgroundColor: 'white'}]}/>
+        </TouchableOpacity>
       </View>
 
-      <View style={[styles.body, {alignItems: 'flex-end', justifyContent: 'flex-start', paddingRight: 15}]}>
-        <View style={{flexDirection: 'row', paddingVertical: 10}}>
-          <TouchableOpacity onPress={() => navigation.navigate('HashTagFinal', {tag: '혼밥'})}>
-            <Box tagName={'혼밥'} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('HashTagFinal', {tag: '숙취'})}>
-            <Box tagName={'숙취'} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('HashTagFinal', {tag: '면'})}>
-            <Box tagName={'면'} />
-          </TouchableOpacity>
-        </View>
-        <View style={{flexDirection: 'row', paddingVertical: 10}}>
-          <TouchableOpacity onPress={() => navigation.navigate('HashTagFinal', {tag: '간단'})}>
-            <Box tagName={'간단'} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <View style={{flex: 8}}></View>
     </View>
   )
 }
-
-function Box( {tagName}: any ) {
-  // let BoxStyle = categoryName.length === 5 ? styles.textBox5 : styles.textBox;
-  return (
-    <View style={styles.textBox}>
-      <Text style ={{fontFamily: 'MaruBuri-Regular', letterSpacing: -1, fontSize: 17}}>{`#${tagName}`}</Text>
-    </View>
-  );
-}
-
-
 
 
 const styles = StyleSheet.create({
@@ -91,8 +84,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 50,
-    height: 50,
-    backgroundColor: '#f5f5f5',
+    width: 30,
+    height: 30,
   },
+  inputAndroid: {
+    fontFamily: 'MaruBuri-Regular',
+    fontSize: 16,
+    height: 50, 
+    width: 330, 
+    color: '#0E4A84',
+    borderColor: 'black', 
+    textAlign: 'center',
+    borderWidth: 1, 
+    borderRadius: 12,
+    padding: 10,
+  }
 })

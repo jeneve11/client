@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
@@ -14,23 +14,47 @@ export default function Final({ navigation, route }) {
   const [isLoaded, setLoad] = useState(false);
   const [data, setData] = useState([]);
   const { finalFood } = route.params;
+  const { categoryList } = route.params;
+  const { arrC } = route.params;
+  const { arrF } = route.params;
 
+  function range(start: number, end: number) {
+    let array = [];
+    for (let i = start; i < end; ++i) {
+      array.push(i);
+    }
+    return array;
+  }
 
+  const findCategory = () => {
+    const index = arrF.indexOf(finalFood.name);
+
+    for (const i of range(0, arrC.length)) {
+      if (index < arrC[i]) {
+        return categoryList[i];
+      }
+    }
+  }
+  
   const numberWithCommas = (x: any) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   const asyncFunc = () => {
     let promise = fetch(
-      'https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/패스트푸드/피자')
+      `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${findCategory()}/${finalFood.name}`)
         .then(res => res.json())
     return promise;
   }
 
   const loadAssets = async () => {
+    console.log(arrC)
+    console.log(arrF)
+    console.log(categoryList)
+    console.log(findCategory())
     try {
       const result = await asyncFunc();
-      console.log(result.result);
+      //console.log(result.result);
       setData(result.result);
     } catch (err) {
       console.log(err);
@@ -65,12 +89,12 @@ export default function Final({ navigation, route }) {
                 return (
                   <View style={[styles.textBox, {borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomWidth: 0.5}]}>
                     <View style={{flex: 9, backgroundColor: 'white'}}>
-                      <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2}]}>{item.store}</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>음식점 주소</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>전화번호</Text>
+                      <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2, paddingBottom: 10}]}>{item.name}</Text>
+                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2, alignSelf: 'flex-start', paddingLeft: 5}]}>{item.address}</Text>
+                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.contact}</Text>
                     </View>
                     <View style={{flex: 5}}>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.name + '\n' + numberWithCommas(item.price) + '원'}</Text>
+                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.Foods[0].name + ' ' + numberWithCommas(item.Foods[0].price) + '원'}</Text>
                     </View>     
                   </View>
                 )
@@ -78,12 +102,12 @@ export default function Final({ navigation, route }) {
                 return (
                   <View style={[styles.textBox, {borderBottomLeftRadius: 20, borderBottomRightRadius: 20, borderTopWidth: 0.5}]}>
                     <View style={{flex: 9, backgroundColor: 'white'}}>
-                      <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2}]}>{item.store}</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>음식점 주소</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>전화번호</Text>
+                      <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2, paddingBottom: 10}]}>{item.name}</Text>
+                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2, alignSelf: 'flex-start', paddingLeft: 5}]}>{item.address}</Text>
+                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.contact}</Text>
                     </View>
                     <View style={{flex: 5}}>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.name + '\n' + numberWithCommas(item.price) + '원'}</Text>
+                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.Foods[0].name + ' ' + numberWithCommas(item.Foods[0].price) + '원'}</Text>
                     </View>     
                   </View>
                 )
@@ -91,12 +115,12 @@ export default function Final({ navigation, route }) {
                 return (
                   <View style={[styles.textBox, {borderTopWidth: 0.5, borderBottomWidth: 0.5}]}>
                     <View style={{flex: 9, backgroundColor: 'white'}}>
-                      <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2}]}>{item.store}</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>음식점 주소</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>전화번호</Text>
+                      <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2, paddingBottom: 10}]}>{item.name}</Text>
+                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2, alignSelf: 'flex-start', paddingLeft: 5}]}>{item.address}</Text>
+                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.contact}</Text>
                     </View>
                     <View style={{flex: 5}}>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.name + '\n' + numberWithCommas(item.price) + '원'}</Text>
+                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.Foods[0].name + ' ' + numberWithCommas(item.Foods[0].price) + '원'}</Text>
                     </View>     
                   </View>
                 )
@@ -134,7 +158,7 @@ const styles = StyleSheet.create({
   },
   textBox: {
     flex: 1,
-    width: '83%',
+    width: 380,
     height: 140,
     backgroundColor: 'white',
     //borderRadius: 20,
@@ -143,7 +167,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    alignSelf: 'center'
   },
   tail: {
     flex: 2,

@@ -72,5 +72,5 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginRight: 14,
     tintColor: 'gray',
-  }
+  },
 });
