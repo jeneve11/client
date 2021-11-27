@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, Alert, BackHandler, Pressable } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, Alert, BackHandler } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 import { PressableOpacity } from 'react-native-pressable-opacity';
@@ -13,31 +13,6 @@ export default function WorldCup({ navigation, route }) {
   let { stage } = route.params;
   const { arrC } = route.params;
   const { arrF } = route.params;
-
-
-/*
-  // 뒤로가기 키 이용 금지
-  useEffect(() => {
-    const backAction = () => {
-      [
-        {
-          text: "Cancel",
-          onPress: () => null,
-          style: "cancel"
-        },
-        // { text: "YES", onPress: () => BackHandler.exitApp() }
-      ]
-      Alert.alert("잠시만요!", "메뉴 선택 중에는 뒤로 가기 버튼을 이용하실 수 없습니다!"); 
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.remove();
-  }, []);*/
     
   // 꾹 누르기, 모달 창 구현해야 할 듯
   const pickFoodAsFinal = (num: number) => {
@@ -55,7 +30,7 @@ export default function WorldCup({ navigation, route }) {
     console.log(`arrC : ${arrC} arrF: ${arrF}`)
     console.log(`final One: ${finalOne.name}`);
     navigation.navigate('Result', {finalOne: finalOne, foodNotPicked: foodNotPicked, categoryList: categoryList, arrC: arrC, arrF: arrF});
-
+    // navigation.reset({routes: [{name: 'Result', params: {finalOne: finalOne, foodNotPicked: foodNotPicked, categoryList: categoryList, arrC: arrC, arrF: arrF}}]})
     return;
   }
 
@@ -159,7 +134,7 @@ export default function WorldCup({ navigation, route }) {
       </View>
 
       <View style={styles.tail}>
-        <TouchableOpacity onPress={() => navigation.navigate('PickCategory')}> 
+        <TouchableOpacity onPress={() => navigation.navigate('PickCategory')}>
           <Text style={[styles.textOnPicture, {color: 'black', fontSize: 15, letterSpacing: -2}]}>다시 카테고리 담기</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>

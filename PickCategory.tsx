@@ -163,6 +163,8 @@ export default function PickCategory({ navigation }) {
       let emptyList: any = [];
       let emptyArray: any = [];
       navigation.navigate('WorldCup', {foodList: foodList, foodAlreadyPicked: emptyList, foodNotPicked: emptyArray, categoryList: categoryList, stage: sixteen, arrC: arrCategory, arrF: arrFood});
+      //navigation.reset({routes: [{name: 'WorldCup', params: {foodList: foodList, foodAlreadyPicked: emptyList, foodNotPicked: emptyArray, categoryList: categoryList, stage: sixteen, arrC: arrCategory, arrF: arrFood}}]})
+
     }
   }
 
@@ -198,11 +200,7 @@ export default function PickCategory({ navigation }) {
         <Text style={[styles.font, {color: '#898C8E', fontSize: 55, textAlign: 'center'}]}>오늘은 안 땡겨!</Text>
       </View>
       <View style={styles.body}>
-        <TouchableOpacity onPress={() => navigation.navigate('Final', {finalFood: '피자'})}>
-          <View>
-            <Text style={[styles.font, {fontSize: 48}]}>카테고리 담기</Text>
-          </View>
-        </TouchableOpacity>
+        <Text style={[styles.font, {fontSize: 48}]}>카테고리 담기</Text>
       </View>
       <View style={[styles.body, {flex: 25}]}>
         <FlatList
