@@ -4,7 +4,7 @@ import { getStatusBarHeight } from "react-native-status-bar-height";
 import { StatusBar } from 'expo-status-bar'
 import { FlatList } from 'react-native-gesture-handler';
 import AppLoading from 'expo-app-loading';
-import _ from 'lodash'
+// import _ from 'lodash'
 
 
 // back키 이슈
@@ -49,6 +49,11 @@ export default function Final({ navigation, route }) {
     console.log(notUniqueArr.length)
   }*/
 
+  function replaceAll(str: string, searchStr: string, replaceStr: string) {
+    return str.split(searchStr).join(replaceStr);
+  }
+
+
   const findCategory = () => {
     const index = arrF.indexOf(finalFood.name);
 
@@ -59,14 +64,11 @@ export default function Final({ navigation, route }) {
     }
   }
   
-  const numberWithCommas = (x: any) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
   const asyncFunc = (Category: string) => {
+    console.log(`asyncFunc: ${Category}, ${replaceAll(finalFood.name, '/', '-')}`)
     let promise = fetch(
       //'https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/한식/곱창')
-      `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${Category}/${finalFood.name}`)
+      `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${Category}/${replaceAll(finalFood.name, '/', '-')}`)
         .then(res => res.json())
     return promise;
   }
@@ -82,7 +84,7 @@ export default function Final({ navigation, route }) {
       
       //console.log(result.result);
       
-      console.log(result.result);
+      //console.log(result.result);
       //findSameRest(result.result)
       setData(result.result);
       
@@ -135,7 +137,7 @@ export default function Final({ navigation, route }) {
                   <View style={{flex: 9, backgroundColor: 'white'}}>
                     <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2, paddingBottom: 10}]}>{item.name}</Text>
                     <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2, alignSelf: 'flex-start', paddingLeft: 5}]}>{item.address}</Text>
-                    <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.contact}</Text>
+                    <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2, alignSelf: 'flex-start', paddingLeft: 15}]}>{item.contact}</Text>
                   </View>
                   <View style={{flex: 5}}>
                     {(item.Foods).map((food: any, index: any) => (
@@ -162,9 +164,12 @@ export default function Final({ navigation, route }) {
 }
 
 function Food( {food}: any ) {
+  const numberWithCommas = (x: any) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   return (
     <View>
-      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{`${food.name} ${food.price}원`}</Text>
+      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{`${food.name} ${numberWithCommas(food.price)}원`}</Text>
     </View>
   );
 }

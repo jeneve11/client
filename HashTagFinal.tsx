@@ -8,16 +8,12 @@ import AppLoading from 'expo-app-loading';
 export default function HashTagFinal({ navigation, route }) {
   const [isLoaded, setLoad] = useState(false);
   const [data, setData] = useState([]);
+  const [finalData, setFinalData] = useState([]);
   const { hashData } = route.params;
   let arrCategory: any = [];
   let arrFood: any = [];
   let finalArr: any = []
   const categoryList: any = ['한식', '중식', '일식', '양식', '분식', '패스트푸드', '아시안', '기타']
-
-
-  const numberWithCommas = (x: any) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
 
   const asyncFunc = () => {
     let promise = fetch(
@@ -37,8 +33,6 @@ export default function HashTagFinal({ navigation, route }) {
     }
   }
 
-
-  //
   
   const getData = (category: string) => {
     let promise = fetch(
@@ -104,18 +98,25 @@ export default function HashTagFinal({ navigation, route }) {
     for (const menu of result) {
       try {
         const result = await getURL(findCategory(menu.name), menu.name);
-        finalArr.push(result.result);
+        const resultresult = result.result;
+        for (const rest of resultresult) {
+          finalArr.push(rest);
+        }
+        //finalArr.push(result.result);
       } catch (err) {
+        console.log(`error occured: ${menu.name}`)
         console.log(err);
       }
     }
 
     console.log(`finalArr: ${JSON.stringify(finalArr)}`)
+    setFinalData(finalArr);
   }
 
   const getURL = (categoryName: string, menuName: string) => {
+    console.log(`fetch: ${categoryName}, ${replaceAll(menuName, '/', '-')}`)
     let promise = fetch(
-      `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${categoryName}/${menuName}`)
+      `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${categoryName}/${replaceAll(menuName, '/', '-')}`)
         .then(res => res.json())
     return promise;
   }
@@ -128,10 +129,11 @@ export default function HashTagFinal({ navigation, route }) {
       }
     }
   }
+
+  function replaceAll(str: string, searchStr: string, replaceStr: string) {
+    return str.split(searchStr).join(replaceStr);
+  }
   
-
-
-  //
 
   if ( !isLoaded ) {
     return(
@@ -148,19 +150,44 @@ export default function HashTagFinal({ navigation, route }) {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor='white' />
+
         <View style={styles.header}>
           <Text style={[styles.font, {fontSize: 45, textAlign: 'right', paddingRight: 35}]}>메뉴월드컵</Text>
           <Text style={[styles.font, {color: '#898C8E', fontSize: 55}]}>오늘은 안 땡겨!</Text>
         </View>
+        
         <View style={styles.body}>
-          <Text style={[styles.font, {fontSize: 40, paddingBottom: 15}]}>음식 리스트</Text>
           <FlatList
-            keyExtractor = {item => item.name}
-            data={data}
+            keyExtractor = {(item, index) => index.toString() + item.toString()}
+            data={finalData}
             renderItem={({item, index}) => {
+              let textBoxStyle = styles.textBox;
+
+              // 요소(음식점)가 하나뿐일때
+              if (index === 0 && index === (finalData.length -1)) {
+                textBoxStyle = styles.textBox0;
+              } // 첫번째 요소
+                else if (index === 0) {
+                textBoxStyle = styles.textBox1;
+              } // 중간 요소
+                else if (index === (finalData.length -1)) {
+                textBoxStyle = styles.textBox2;
+              } // 마지막 요소
+                else {
+                textBoxStyle = styles.textBox3;     
+              }
               return (
-                <View style={{flex: 5}}>
-                  <Text style={styles.font}>{index}. {item.name}</Text>
+                <View style={textBoxStyle}>
+                  <View style={{flex: 9, backgroundColor: 'white'}}>
+                    <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2, paddingBottom: 10}]}>{item.name}</Text>
+                    <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2, alignSelf: 'flex-start', paddingLeft: 5}]}>{item.address}</Text>
+                    <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2, alignSelf: 'flex-start', paddingLeft: 15}]}>{item.contact}</Text>
+                  </View>
+                  <View style={{flex: 5}}>
+                    {(item.Foods).map((food: any, index: any) => (
+                      <Food food={food} key={index} />
+                    ))}  
+                  </View>
                 </View>
               )
             }}
@@ -170,6 +197,19 @@ export default function HashTagFinal({ navigation, route }) {
     )
   }
 }
+
+
+function Food( {food}: any ) {
+  const numberWithCommas = (x: any) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  return (
+    <View>
+      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{`${food.name} ${numberWithCommas(food.price)}원`}</Text>
+    </View>
+  );
+}
+
 
 
 const styles = StyleSheet.create({
@@ -196,16 +236,75 @@ const styles = StyleSheet.create({
   },
   textBox: {
     flex: 1,
-    width: '83%',
+    width: 380,
     height: 140,
     backgroundColor: 'white',
-    //borderRadius: 20,
     borderWidth: 1,
     borderColor: '#A5A5A5',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    alignSelf: 'center'
+  },
+  textBox0: {
+    flex: 1,
+    width: 380,
+    height: 140,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#A5A5A5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    borderBottomWidth: 0.5
+  },
+  textBox1: {
+    flex: 1,
+    width: 380,
+    height: 140,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#A5A5A5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomWidth: 0.5
+  },
+  textBox2: {
+    flex: 1,
+    width: 380,
+    height: 140,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#A5A5A5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    borderTopWidth: 0.5
+  },
+  textBox3: {
+    flex: 1,
+    width: 380,
+    height: 140,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#A5A5A5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
   },
   tail: {
     flex: 2,
