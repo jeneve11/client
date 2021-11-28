@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 import { FlatList } from 'react-native-gesture-handler';
@@ -9,6 +9,10 @@ export default function HashTagFinal({ navigation, route }) {
   const [isLoaded, setLoad] = useState(false);
   const [data, setData] = useState([]);
   const { hashData } = route.params;
+  let arrCategory: any = [];
+  let arrFood: any = [];
+  let finalArr: any = []
+  const categoryList: any = ['한식', '중식', '일식', '양식', '분식', '패스트푸드', '아시안', '기타']
 
 
   const numberWithCommas = (x: any) => {
@@ -25,12 +29,109 @@ export default function HashTagFinal({ navigation, route }) {
   const loadAssets = async () => {
     try {
       const result = await asyncFunc();
-      console.log(result.result);
-      setData(result.result);
+      console.log(result);
+      setData(result);
+      funcPass(result);
     } catch (err) {
       console.log(err);
     }
   }
+
+
+  //
+  
+  const getData = (category: string) => {
+    let promise = fetch(
+      `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${category}`)
+        .then(res => res.json())
+    return promise;
+  }
+
+  const loadCategory = async (categoryList: Array<string>) => {
+    const foodArr: any = [];
+    for (const category of categoryList) {
+      try {
+        const result = await getData(category);
+        arrCategory.push(result.result.length);
+        foodArr.push(result.result);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    return foodArr;
+  }
+
+  function range(start: number, end: number) {
+    let array = [];
+    for (let i = start; i < end; ++i) {
+      array.push(i);
+    }
+    return array;
+  }
+  
+  const funcPass = async (result: any) => {
+    console.log('function funcPass start');
+
+    console.log(`List of categories: ${categoryList}`);
+    let passArr = await loadCategory(categoryList);
+
+    let allFoodList: any = []
+
+    console.log(arrCategory);
+    for (let index of range(0, arrCategory.length)){
+      if (!index) {
+        arrCategory[index] -= 1
+      } else if (index) {
+        arrCategory[index] += arrCategory[index - 1];
+      }
+    }
+    console.log(`arrCategory: ${arrCategory}`);
+
+    console.log(passArr.length);
+    for (let category of passArr) {
+      for (let menu of category) {
+        allFoodList.push(menu);
+      }
+    }
+
+    for (const menu of allFoodList) {
+      arrFood.push(menu.name);
+    }
+    console.log(`arrFood: ${arrFood}`);
+    console.log(arrFood.length)
+
+    for (const menu of result) {
+      try {
+        const result = await getURL(findCategory(menu.name), menu.name);
+        finalArr.push(result.result);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    console.log(`finalArr: ${JSON.stringify(finalArr)}`)
+  }
+
+  const getURL = (categoryName: string, menuName: string) => {
+    let promise = fetch(
+      `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${categoryName}/${menuName}`)
+        .then(res => res.json())
+    return promise;
+  }
+
+  const findCategory = (menu: any) => {
+    const index = arrFood.indexOf(menu);    
+    for (const i of range(0, arrCategory.length)) {
+      if (index <= arrCategory[i]) {
+        return categoryList[i];
+      }
+    }
+  }
+  
+
+
+  //
 
   if ( !isLoaded ) {
     return(
@@ -52,50 +153,16 @@ export default function HashTagFinal({ navigation, route }) {
           <Text style={[styles.font, {color: '#898C8E', fontSize: 55}]}>오늘은 안 땡겨!</Text>
         </View>
         <View style={styles.body}>
+          <Text style={[styles.font, {fontSize: 40, paddingBottom: 15}]}>음식 리스트</Text>
           <FlatList
             keyExtractor = {item => item.name}
             data={data}
             renderItem={({item, index}) => {
-              if (index === 0) {
-                return (
-                  <View style={[styles.textBox, {borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomWidth: 0.5}]}>
-                    <View style={{flex: 9, backgroundColor: 'white'}}>
-                      <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2}]}>{item.store}</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>음식점 주소</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>전화번호</Text>
-                    </View>
-                    <View style={{flex: 5}}>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.name + '\n' + numberWithCommas(item.price) + '원'}</Text>
-                    </View>     
-                  </View>
-                )
-              } else if (index === (data.length -1)) {
-                return (
-                  <View style={[styles.textBox, {borderBottomLeftRadius: 20, borderBottomRightRadius: 20, borderTopWidth: 0.5}]}>
-                    <View style={{flex: 9, backgroundColor: 'white'}}>
-                      <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2}]}>{item.store}</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>음식점 주소</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>전화번호</Text>
-                    </View>
-                    <View style={{flex: 5}}>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.name + '\n' + numberWithCommas(item.price) + '원'}</Text>
-                    </View>     
-                  </View>
-                )
-              } else {
-                return (
-                  <View style={[styles.textBox, {borderTopWidth: 0.5, borderBottomWidth: 0.5}]}>
-                    <View style={{flex: 9, backgroundColor: 'white'}}>
-                      <Text style={[styles.font, {alignSelf: 'flex-start', paddingLeft: 20, letterSpacing: -2}]}>{item.store}</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>음식점 주소</Text>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>전화번호</Text>
-                    </View>
-                    <View style={{flex: 5}}>
-                      <Text style={[styles.font, {color: '#898C8E', fontSize: 15, letterSpacing: -2}]}>{item.name + '\n' + numberWithCommas(item.price) + '원'}</Text>
-                    </View>     
-                  </View>
-                )
-              }
+              return (
+                <View style={{flex: 5}}>
+                  <Text style={styles.font}>{index}. {item.name}</Text>
+                </View>
+              )
             }}
           />
         </View>
@@ -118,7 +185,7 @@ const styles = StyleSheet.create({
     fontFamily: 'MaruBuri-Regular',
     fontSize: 25,
     color: '#0E4A84',
-    letterSpacing: -5,
+    letterSpacing: -2,
     textAlign: 'center',
   },
   body: {
@@ -149,4 +216,4 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#f5f5f5',
   },
-})
+});

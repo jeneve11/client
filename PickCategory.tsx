@@ -138,7 +138,7 @@ export default function PickCategory({ navigation }) {
         arrCategory[index] += arrCategory[index - 1];
       }
     }
-    console.log(arrCategory);
+    console.log(`arrCategory: ${arrCategory}`);
 
     console.log(passArr.length);
     for (let category of passArr) {
@@ -152,7 +152,7 @@ export default function PickCategory({ navigation }) {
       arrFood.push(menu.name);
     }
 
-    console.log(arrFood);
+    console.log(`arrFood: ${arrFood}`);
     console.log(`Length of the allFoodList: ${allFoodList.length}`);
     //console.log(allFoodList)
    if (allFoodList.length < 16) {
@@ -163,8 +163,6 @@ export default function PickCategory({ navigation }) {
       let emptyList: any = [];
       let emptyArray: any = [];
       navigation.navigate('WorldCup', {foodList: foodList, foodAlreadyPicked: emptyList, foodNotPicked: emptyArray, categoryList: categoryList, stage: sixteen, arrC: arrCategory, arrF: arrFood});
-      //navigation.reset({routes: [{name: 'WorldCup', params: {foodList: foodList, foodAlreadyPicked: emptyList, foodNotPicked: emptyArray, categoryList: categoryList, stage: sixteen, arrC: arrCategory, arrF: arrFood}}]})
-
     }
   }
 

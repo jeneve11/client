@@ -7,7 +7,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { NavigationContainer } from '@react-navigation/native';
 
 
-export default function HashTag({ navigation: { navigate } }) {
+export default function HashTag({ navigation }) {
   const [hashData, setHashData] = useState('?');
 
   return (

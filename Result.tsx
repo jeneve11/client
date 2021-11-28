@@ -1,7 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Alert, BackHandler } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
+
 
 
 export default function Result({ navigation, route }) {

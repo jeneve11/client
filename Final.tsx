@@ -53,11 +53,10 @@ export default function Final({ navigation, route }) {
     const index = arrF.indexOf(finalFood.name);
 
     for (const i of range(0, arrC.length)) {
-      if (index < arrC[i]) {
+      if (index <= arrC[i]) {
         return categoryList[i];
       }
     }
-    
   }
   
   const numberWithCommas = (x: any) => {
@@ -73,8 +72,8 @@ export default function Final({ navigation, route }) {
   }
 
   const loadAssets = async () => {
-    console.log(arrC)
-    console.log(arrF)
+    // console.log(arrC)
+    // console.log(arrF)
     console.log(categoryList)
     let Category = findCategory() 
     console.log(`Category: ${Category}, Food: ${finalFood.name}`)
@@ -117,11 +116,18 @@ export default function Final({ navigation, route }) {
             data={data}
             renderItem={({item, index}) => {
               let textBoxStyle = styles.textBox;
-              if (index === 0) {
+
+              // 요소(음식점)가 하나뿐일때
+              if (index === 0 && index === (data.length -1)) {
+                textBoxStyle = styles.textBox0;
+              } // 첫번째 요소
+                else if (index === 0) {
                 textBoxStyle = styles.textBox1;
-              } else if (index === (data.length -1)) {
+              } // 중간 요소
+                else if (index === (data.length -1)) {
                 textBoxStyle = styles.textBox2;
-              } else {
+              } // 마지막 요소
+                else {
                 textBoxStyle = styles.textBox3;     
               }
               return (
@@ -197,6 +203,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
   },
+  textBox0: {
+    flex: 1,
+    width: 380,
+    height: 140,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#A5A5A5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    borderBottomWidth: 0.5
+  },
   textBox1: {
     flex: 1,
     width: 380,
@@ -251,7 +274,6 @@ const styles = StyleSheet.create({
   image: {
     width: 50,
     height: 50,
-    backgroundColor: '#f5f5f5',
   },
   textOnPicture: {
     fontFamily: 'MaruBuri-Regular',
