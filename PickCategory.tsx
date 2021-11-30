@@ -61,7 +61,7 @@ export default function PickCategory({ navigation }) {
   const [data, setData] = useState([]);
   const [touchCount, setTouchCount] = useState(0)
   let arrCategory: any = [];
-  let arrFood: any = []
+  let arrFood: any = [];
 
 
   // n(n>16)개의 메뉴 중 16개를 뽑아서 추출해주는 함수

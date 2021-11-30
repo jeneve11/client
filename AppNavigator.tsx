@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Welcome from './Welcome';
 import Home from './Home';
 import HowTo from './HowTo';
+import HowTo2 from './HowTo2';
 import HashTag from './HashTag';
 import PickCategory from './PickCategory';
 import WorldCup from './WorldCup';
@@ -22,6 +23,7 @@ export default function AppNavigator() {
         <Stack.Screen name="Welcome" component={Welcome} options={{headerShown: false}}/>
         <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
         <Stack.Screen name="HowTo" component={HowTo} options={{headerShown: false}}/>
+        <Stack.Screen name="HowTo2" component={HowTo2} options={{headerShown: false}}/>
         <Stack.Screen name="HashTag" component={HashTag} options={{headerShown: false}}/>
         <Stack.Screen name="PickCategory" component={PickCategory} options={{headerShown: false}}/>
         <Stack.Screen name="WorldCup" component={WorldCup} options={{headerShown: false, animation: 'slide_from_right'}}/>

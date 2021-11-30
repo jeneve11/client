@@ -10,6 +10,7 @@ export default function HashTagFinal({ navigation, route }) {
   const [data, setData] = useState([]);
   const [finalData, setFinalData] = useState([]);
   const { hashData } = route.params;
+
   let arrCategory: any = [];
   let arrFood: any = [];
   let finalArr: any = []
@@ -133,6 +134,16 @@ export default function HashTagFinal({ navigation, route }) {
   function replaceAll(str: string, searchStr: string, replaceStr: string) {
     return str.split(searchStr).join(replaceStr);
   }
+
+  const decodeHashData = (hashData: string) => {
+    switch (hashData) {
+      case 'solo': return '혼밥'
+      case 'hangover': return '숙취'
+      case 'noodle': return '면'
+      case 'simple': return '간단하게'
+      default: return 'ERROR'
+    }
+  }
   
 
   if ( !isLoaded ) {
@@ -152,10 +163,23 @@ export default function HashTagFinal({ navigation, route }) {
         <StatusBar backgroundColor='white' />
 
         <View style={styles.header}>
-          <Text style={[styles.font, {fontSize: 45, textAlign: 'right', paddingRight: 35}]}>메뉴월드컵</Text>
-          <Text style={[styles.font, {color: '#898C8E', fontSize: 55}]}>오늘은 안 땡겨!</Text>
+          <Text style={[styles.font, {color: '#898C8E', fontSize: 35, textAlign: 'right', paddingRight: 25}]}>메뉴가</Text>
+          <Text style={[styles.font, {color: '#898C8E', fontSize: 35, textAlign: 'right', paddingRight: 25}]}>생각나지 않을 때</Text>
+
+          <Text style={[styles.font, {textAlign: 'right', fontSize: 40, paddingRight: 25}]}>해시태그로</Text>
+          <Text style={[styles.font, {textAlign: 'right', fontSize: 40, paddingRight: 25}]}>검색하기</Text>
+
         </View>
         
+        <View style={{flex: 4, flexDirection: 'row', justifyContent: 'center', 'alignItems': 'center'}}>
+          <View style={[styles.textBoxA, {paddingHorizontal: 5}]}>
+            <Text style={[styles.font, {color: 'black', fontSize: 20}]}>#{decodeHashData(hashData)}</Text>
+          </View>
+          <View style={{paddingHorizontal: 5}}>
+            <Text style={[styles.font, {color: 'black', fontSize: 20}]}>로 검색한 가게</Text>
+          </View>
+        </View>
+
         <View style={styles.body}>
           <FlatList
             keyExtractor = {(item, index) => index.toString() + item.toString()}
@@ -219,7 +243,7 @@ const styles = StyleSheet.create({
     marginTop: getStatusBarHeight(),
   },
   header: {
-    flex: 6,
+    flex: 11,
   },
   font: {
     fontFamily: 'MaruBuri-Regular',
@@ -233,6 +257,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
+  },
+  textBoxA: {
+    height: 30,
+    width: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#A5A5A5',
+    marginLeft: 13,
   },
   textBox: {
     flex: 1,
