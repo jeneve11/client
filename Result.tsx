@@ -15,6 +15,7 @@ export default function Result({ navigation, route }) {
   let ca = arrC;
   let fa = arrF;
   let finalFood = finalOne.name;
+  let foodNotPickedRev = foodNotPicked.reverse();
 
 
   return (
@@ -22,8 +23,8 @@ export default function Result({ navigation, route }) {
       <StatusBar backgroundColor='white' />
 
       <View style={styles.header}>
-        <Text style={[styles.font, {textAlign: 'right', paddingRight: 35}]}>메뉴월드컵</Text>
-        <Text style={[styles.font, {color: '#898C8E', fontSize: 55}]}>오늘은 안 땡겨!</Text>
+        <Text style={[styles.font, {textAlign: 'right', fontSize: 40, paddingRight: 20}]}>메뉴월드컵</Text>
+        <Text style={[styles.font, {textAlign: 'right', color: '#898C8E', fontSize: 45, paddingRight: 15}]}>오늘은 뭘 먹지?</Text>
       </View>
 
       <TouchableOpacity style={styles.body} onPress={() => navigation.navigate('Final', {finalFood: finalOne, categoryList: categoryList, arrC: ca, arrF: fa})}>
@@ -45,9 +46,9 @@ export default function Result({ navigation, route }) {
       </TouchableOpacity>
       <View style={styles.tail}>
         <ScrollView style={styles.textBox}>
-          <Text style={[styles.font, {color: '#898C8E', fontSize: 20, letterSpacing: -2, paddingTop: 11}]}>오늘 안 땡기는 순위 {'\n'}</Text>
+          <Text style={[styles.font, {color: '#898C8E', fontSize: 20, letterSpacing: -2, paddingTop: 11}]}>오늘 땡기는 순위 {'\n'}</Text>
           <View>
-            {foodNotPicked.map((food: any, index: any) => (
+            {foodNotPickedRev.map((food: any, index: any) => (
               <Rank food={food} key={index} index={index} />
             ))}
           </View>
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     marginTop: getStatusBarHeight(),
   },
   header: {
-    flex: 2,
+    flex: 1.7,
   },
   font: {
     fontFamily: 'MaruBuri-Regular',

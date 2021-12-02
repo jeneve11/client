@@ -10,11 +10,10 @@ export default function WorldCup({ navigation, route }) {
   let { foodList } = route.params;
   let { foodAlreadyPicked } = route.params;
   let { foodNotPicked } = route.params;
-  const { categoryList } = route.params;
+  let { categoryList } = route.params;
   let { stage } = route.params;
   const { arrC } = route.params;
   const { arrF } = route.params;
-
 
     
   // 꾹 누르기, 모달 창 구현해야 할 듯
@@ -94,8 +93,8 @@ export default function WorldCup({ navigation, route }) {
       <StatusBar backgroundColor='white' />
 
       <View style={styles.header}>
-        <Text style={[styles.font, {textAlign: 'right', paddingRight: 35}]}>메뉴월드컵</Text>
-        <Text style={[styles.font, {color: '#898C8E', fontSize: 55, textAlign: 'center'}]}>오늘은 안 땡겨!</Text>
+        <Text style={[styles.font, {textAlign: 'right', fontSize: 40, paddingRight: 20}]}>메뉴월드컵</Text>
+        <Text style={[styles.font, {textAlign: 'right', color: '#898C8E', fontSize: 45, paddingRight: 15}]}>오늘은 뭘 먹지?</Text>
       </View>
 
       <View style={styles.body}>
@@ -106,8 +105,8 @@ export default function WorldCup({ navigation, route }) {
               source={{
                 uri: foodList[foodList.length - 1].image
               }}
-              style={{width: 180, height: 180, justifyContent: 'center', opacity: 0.7}}
-              imageStyle={{borderRadius: 90}}
+              style={{width: 200, height: 200, justifyContent: 'center', opacity: 0.7}}
+              imageStyle={{borderRadius: 100}}
               key={foodList}
             >
               <Text style={styles.textOnPicture}>{foodList[foodList.length - 1].name}</Text>
@@ -121,8 +120,8 @@ export default function WorldCup({ navigation, route }) {
               source={{
                 uri: foodList[foodList.length - 2].image
               }}
-              style={{width: 180, height: 180, justifyContent: 'center', opacity: 0.7}}
-              imageStyle={{borderRadius: 90}}
+              style={{width: 200, height: 200, justifyContent: 'center', opacity: 0.7}}
+              imageStyle={{borderRadius: 100}}
               >
               <Text style={styles.textOnPicture}>{foodList[foodList.length - 2].name}</Text>
             </ImageBackground>
@@ -130,7 +129,7 @@ export default function WorldCup({ navigation, route }) {
         </PressableOpacity>
       </View>
 
-      <View style={[styles.body, {flex: 1.5, alignItems: 'flex-start', justifyContent: 'center'}]}>
+      <View style={[styles.body, {flex: 1, alignItems: 'flex-start', justifyContent: 'center'}]}>
         <View style= {{flexDirection: 'row', paddingHorizontal: 10}}>
           {categoryList.map((category: any, index: any) => (
             <Box categoryName={category} key={index} />
@@ -166,7 +165,7 @@ const styles = StyleSheet.create({
     marginTop: getStatusBarHeight(),
   },
   header: {
-    flex: 4,
+    flex: 3,
   },
   font: {
     fontFamily: 'MaruBuri-Regular',

@@ -15,10 +15,10 @@ export default function HashTag({ navigation }) {
       <StatusBar backgroundColor='white' />
 
       <View style={styles.header}>
-        <Text style={[styles.font, {color: '#898C8E', fontSize: 40, paddingRight: 15}]}>메뉴가</Text>
-        <Text style={[styles.font, {color: '#898C8E', fontSize: 40, paddingRight: 10}]}>생각나지 않을 때</Text>
-        <Text style={[styles.font, {fontSize: 45, paddingRight: 15}]}>해시태그로</Text>
-        <Text style={[styles.font, {fontSize: 45, paddingRight: 10}]}>검색하기</Text>
+        <Text style={[styles.font, {color: '#898C8E', fontSize: 40, paddingRight: 20}]}>메뉴가</Text>
+        <Text style={[styles.font, {color: '#898C8E', fontSize: 40, paddingRight: 15}]}>생각나지 않을 때</Text>
+        <Text style={[styles.font, {fontSize: 45, paddingRight: 20}]}>해시태그로</Text>
+        <Text style={[styles.font, {fontSize: 45, paddingRight: 15}]}>검색하기</Text>
       </View>
       <View style={{flex: 2, flexDirection: 'row',  justifyContent: 'space-evenly', alignItems: 'center'}}>
         <RNPickerSelect

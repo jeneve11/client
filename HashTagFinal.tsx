@@ -163,11 +163,9 @@ export default function HashTagFinal({ navigation, route }) {
         <StatusBar backgroundColor='white' />
 
         <View style={styles.header}>
-          <Text style={[styles.font, {color: '#898C8E', fontSize: 35, textAlign: 'right', paddingRight: 25}]}>메뉴가</Text>
-          <Text style={[styles.font, {color: '#898C8E', fontSize: 35, textAlign: 'right', paddingRight: 25}]}>생각나지 않을 때</Text>
-
-          <Text style={[styles.font, {textAlign: 'right', fontSize: 40, paddingRight: 25}]}>해시태그로</Text>
-          <Text style={[styles.font, {textAlign: 'right', fontSize: 40, paddingRight: 25}]}>검색하기</Text>
+          <Text style={[styles.font, {fontSize: 35, textAlign: 'right', paddingRight: 20}]}>머먹이</Text>
+          <Text style={[styles.font, {fontSize: 35, textAlign: 'right', paddingRight: 20}]}>당신을 위해</Text>
+          <Text style={[styles.font, {color: '#898C8E', textAlign: 'right', fontSize: 45, paddingRight: 15}]}>추천하는 가게</Text>
 
         </View>
         
@@ -243,7 +241,7 @@ const styles = StyleSheet.create({
     marginTop: getStatusBarHeight(),
   },
   header: {
-    flex: 11,
+    flex: 7,
   },
   font: {
     fontFamily: 'MaruBuri-Regular',

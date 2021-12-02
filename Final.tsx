@@ -109,8 +109,9 @@ export default function Final({ navigation, route }) {
       <View style={styles.container}>
         <StatusBar backgroundColor='white' />
         <View style={styles.header}>
-          <Text style={[styles.font, {fontSize: 45, textAlign: 'right', paddingRight: 35}]}>메뉴월드컵</Text>
-          <Text style={[styles.font, {color: '#898C8E', fontSize: 55}]}>오늘은 안 땡겨!</Text>
+          <Text style={[styles.font, {fontSize: 35, textAlign: 'right', paddingRight: 20}]}>머먹이</Text>
+          <Text style={[styles.font, {fontSize: 35, textAlign: 'right', paddingRight: 20}]}>당신을 위해</Text>
+          <Text style={[styles.font, {color: '#898C8E', textAlign: 'right', fontSize: 45, paddingRight: 15}]}>추천하는 가게</Text>
         </View>
         <View style={styles.body}>
           <FlatList
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     marginTop: getStatusBarHeight(),
   },
   header: {
-    flex: 6,
+    flex: 8,
   },
   font: {
     fontFamily: 'MaruBuri-Regular',
@@ -270,7 +271,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
   },
   tail: {
-    flex: 1.5,
+    flex: 2.5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

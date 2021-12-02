@@ -34,7 +34,7 @@ export default function HowTo({ navigation }) {
             </View>
             <View style={{flex: 1}}>
               <View style={{flex: 1.5, justifyContent: 'center'}}>
-                <Text style={{textAlign: 'center', fontFamily: 'MaruBuri-Regular'}}>16강부터 차례대로 '땡기지 않는 음식'을 선택하기</Text>
+                <Text style={{textAlign: 'center', fontFamily: 'MaruBuri-Regular'}}>16강부터 차례대로 '땡기는 음식'을 선택하기</Text>
               </View>
               <Image style={[styles.image, {flex: 5}]} source={require('./assets/howto/worldcup_2.jpg')}/>
             </View>

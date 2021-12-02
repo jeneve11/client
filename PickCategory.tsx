@@ -194,8 +194,8 @@ export default function PickCategory({ navigation }) {
       <StatusBar backgroundColor='white' />
 
       <View style={styles.header}>
-        <Text style={[styles.font, {textAlign: 'right', paddingRight: 35}]}>메뉴월드컵</Text>
-        <Text style={[styles.font, {color: '#898C8E', fontSize: 55, textAlign: 'center'}]}>오늘은 안 땡겨!</Text>
+        <Text style={[styles.font, {textAlign: 'right', fontSize: 40, paddingRight: 20}]}>메뉴월드컵</Text>
+        <Text style={[styles.font, {textAlign: 'right', color: '#898C8E', fontSize: 45, paddingRight: 15}]}>오늘은 뭘 먹지?</Text>
       </View>
       <View style={styles.body}>
         <Text style={[styles.font, {fontSize: 48}]}>카테고리 담기</Text>
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     marginTop: getStatusBarHeight(),
   },
   header: {
-    flex: 7,
+    flex: 6,
   },
   font: {
     fontFamily: 'MaruBuri-Regular',
