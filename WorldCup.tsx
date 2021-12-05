@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, Alert, BackHandler } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
@@ -29,8 +29,8 @@ export default function WorldCup({ navigation, route }) {
       finalOne = foodList[foodList.length - 2];
     }
     
-    console.log(`arrC : ${arrC} arrF: ${arrF}`)
-    console.log(`final One: ${finalOne.name}`);
+    //console.log(`arrC : ${arrC} arrF: ${arrF}`)
+    //console.log(`final One: ${finalOne.name}`);
     navigation.replace('Result', {finalOne: finalOne, foodNotPicked: foodNotPicked, categoryList: categoryList, arrC: arrC, arrF: arrF});
     // navigation.reset({routes: [{name: 'Result', params: {finalOne: finalOne, foodNotPicked: foodNotPicked, categoryList: categoryList, arrC: arrC, arrF: arrF}}]})
     return;

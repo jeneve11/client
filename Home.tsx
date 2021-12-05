@@ -30,7 +30,7 @@ export default class Home extends React.Component {
             onPress={() => this.props.navigation.navigate('PickCategory')
           }>
             <View style={styles.body}>
-              <Image source={require('./assets/icon/cup.png')} style={[styles.image, {backgroundColor: '#f5f5f5', borderRadius: 20}]}/>
+              <Image source={require('./assets/icon/cup.png')} style={[styles.image]}/>
               <Text style={styles.content}> 메뉴월드컵</Text>
             </View>
           </TouchableOpacity>
@@ -40,7 +40,7 @@ export default class Home extends React.Component {
             <View style={styles.body}>
               <View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Image source={require('./assets/icon/hashtag.png')} style={[styles.image, {backgroundColor: '#F5F5F5', borderRadius: 20}]}/>
+                  <Image source={require('./assets/icon/hashtag.png')} style={[styles.image]}/>
                   <Text style={styles.content}> 해시태그로</Text>
                 </View>
                 <View style={{alignItems: 'flex-end'}}>
