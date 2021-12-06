@@ -27,32 +27,9 @@ export default function Final({ navigation, route }) {
     return array;
   }
 
-  /*
-  const findSameRest = (tempArr: Array<Object>) => {
-    //let newJSON = ( ({ "address", "contact", "inHanyang", "name" }) => ({ "address", "contact", "inHanyang", "name" }) )(WhatToDo[0]);
-    //let newJSON = _.pick(WhatToDo[0], ['address', 'name'])
-    // column 줄이기
-    let newArr = tempArr.map(element => _.pick(element, ['address', 'contact', 'name']));
-    console.log(`findSameRest2: ${JSON.stringify(newArr)}`);
-
-
-    let uniqueArr: Array<Object> = [];
-    let notUniqueArr: Array<Object> = [];
-    newArr.forEach((element) => {
-      if (!uniqueArr.includes(element)) {
-          uniqueArr.push(element);
-      } else {
-        notUniqueArr.push(element);
-      }
-    });
-    console.log(uniqueArr.length)
-    console.log(notUniqueArr.length)
-  }*/
-
   function replaceAll(str: string, searchStr: string, replaceStr: string) {
     return str.split(searchStr).join(replaceStr);
   }
-
 
   const findCategory = () => {
     const index = arrF.indexOf(finalFood.name);
@@ -66,29 +43,26 @@ export default function Final({ navigation, route }) {
   
   const asyncFunc = (Category: string) => {
     console.log(`asyncFunc: ${Category}, ${replaceAll(finalFood.name, '/', '-')}`)
-    let promise = fetch(
-      //'https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/한식/곱창')
+    let promise;
+    promise = fetch(
       `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/${Category}/${replaceAll(finalFood.name, '/', '-')}`)
+      // `https://4h5fvtcuw1.execute-api.ap-northeast-2.amazonaws.com/prod/categories/한식/국수`)
         .then(res => res.json())
+    
+    
     return promise;
   }
 
   const loadAssets = async () => {
-    // console.log(arrC)
-    // console.log(arrF)
     console.log(categoryList)
     let Category = findCategory() 
     console.log(`Category: ${Category}, Food: ${finalFood.name}`)
     try {
       const result = await asyncFunc(Category);
-      
-      //console.log(result.result);
-      
-      //console.log(result.result);
-      //findSameRest(result.result)
+      //console.log(result)
       setData(result.result);
-      
     } catch (err) {
+      console.log('쉬벌')
       console.log(err);
     }
   }
@@ -103,6 +77,32 @@ export default function Final({ navigation, route }) {
     );
   }
 
+  else if ( data === undefined ) {
+    return(
+      <View style={styles.container}>
+        <StatusBar backgroundColor='white' />
+        <View style={styles.header}>
+          <Text style={[styles.font, {fontSize: 35, textAlign: 'right', paddingRight: 20}]}>머먹이</Text>
+          <Text style={[styles.font, {fontSize: 35, textAlign: 'right', paddingRight: 20}]}>당신을 위해</Text>
+          <Text style={[styles.font, {color: '#898C8E', textAlign: 'right', fontSize: 45, paddingRight: 15}]}>추천하는 가게</Text>
+        </View>
+        <View style={styles.body}>
+          <Text style={[styles.font, {color: 'black', letterSpacing: -1, paddingVertical: 5}]}>네트워크에 에러가</Text>
+          <Text style={[styles.font, {color: 'black', letterSpacing: -1, paddingVertical: 5}]}>발생하였습니다.</Text>
+          <Text style={[styles.font, {color: 'black', letterSpacing: -1, paddingVertical: 5}]}>다시 시도해 주십시오.</Text>
+        </View>
+        <View style={styles.tail}>
+          <TouchableOpacity onPress={() => navigation.navigate('PickCategory')}> 
+            <Text style={[styles.textOnPicture, {color: 'black', fontSize: 15, letterSpacing: -2}]}>다시 카테고리 담기</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Image source={require('./assets/icon/home.png')} style={styles.image}/>
+          </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
+
   
   else {
     return (
@@ -114,6 +114,8 @@ export default function Final({ navigation, route }) {
           <Text style={[styles.font, {color: '#898C8E', textAlign: 'right', fontSize: 45, paddingRight: 15}]}>추천하는 가게</Text>
         </View>
         <View style={styles.body}>
+          {console.log(`data: ${data}`)}
+          
           <FlatList
             keyExtractor = {item => item.name}
             data={data}

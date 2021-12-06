@@ -39,7 +39,7 @@ export default function Result({ navigation, route }) {
               <Text style={[styles.font, {color: '#898C8E', fontSize: 20, letterSpacing: -2}]}>오늘 어디 가지?</Text>
             </View>
             <View style={{flex: 2}}>
-              <Image source={require('./assets/icon/person.png')} style={[styles.image, {backgroundColor: '#F5F5F5', borderRadius: 20}]}/>
+              <Image source={require('./assets/icon/person.png')} style={[styles.image]}/>
             </View>
           </View>
         </View>
@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
   image: {
     width: 50,
     height: 50,
-    backgroundColor: '#f5f5f5',
+    resizeMode: 'contain'
   },
 })

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, ImageBackground, TouchableOpacity, Alert } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 
@@ -155,8 +155,8 @@ export default function PickCategory({ navigation }) {
     console.log(`arrFood: ${arrFood}`);
     console.log(`Length of the allFoodList: ${allFoodList.length}`);
     //console.log(allFoodList)
-   if (allFoodList.length < 16) {
-      alert('You should choose more category!');
+    if (allFoodList.length < 16) {
+      Alert.alert('더 많은 카테고리를 선택해야 합니다!', '음식 종류가 16개가 되지 않습니다.', [{ text: "네", onPress: () => null }], {cancelable: false });
     } else {
       let foodList: any = chooseRandom(allFoodList, 16);
       let sixteen: string = '16강';

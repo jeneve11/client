@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground, Alert, BackHandler } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { getStatusBarHeight } from "react-native-status-bar-height"; 
 import { StatusBar } from 'expo-status-bar'
 import { PressableOpacity } from 'react-native-pressable-opacity';
-
+import AlertAsync from "react-native-alert-async";
 
 
 export default function WorldCup({ navigation, route }) {
@@ -15,9 +15,31 @@ export default function WorldCup({ navigation, route }) {
   const { arrC } = route.params;
   const { arrF } = route.params;
 
+  const checkAnswer = async (num: number) => {
+    let answer = await AlertAsync(             
+      "이 음식을 선택하시겠습니까?",                 
+      "'네' 를 누르면 월드컵이 종료됩니다.",            
+      [                    
+        {
+          text: "아니요",                          
+          onPress: () => 'no',    
+          style: "cancel"
+        },
+        { text: "네", onPress: () => 'yes' },    
+      ],
+      { cancelable: false }
+    );
+
+    if (answer === 'yes') {
+      pickFoodAsFinal(num);
+    } else {
+      return;
+    }
+  }
+
     
   // 꾹 누르기, 모달 창 구현해야 할 듯
-  const pickFoodAsFinal = (num: number) => {
+  const pickFoodAsFinal = async (num: number) => {
     let finalOne;
     if (num === 0) {
       foodAlreadyPicked.push(foodList[foodList.length - 1]);
@@ -99,7 +121,7 @@ export default function WorldCup({ navigation, route }) {
 
       <View style={styles.body}>
         <Text style={[styles.font, {fontSize: 40, color: 'black'}]}>{stage}</Text>
-        <PressableOpacity onPress={() => pickFood(0) } onLongPress={() => pickFoodAsFinal(0)}>
+        <PressableOpacity onPress={() => pickFood(0) } onLongPress={() => checkAnswer(0)}>
           <View>
             <ImageBackground
               source={{
@@ -114,7 +136,7 @@ export default function WorldCup({ navigation, route }) {
           </View>
         </PressableOpacity>
         <Text style={[styles.font, {fontSize: 40, color: '#0E4A84'}]}>vs</Text>
-        <PressableOpacity onPress={() => pickFood(1) } onLongPress={() => pickFoodAsFinal(1)}>
+        <PressableOpacity onPress={() => pickFood(1) } onLongPress={() => checkAnswer(1)}>
           <View>
             <ImageBackground
               source={{

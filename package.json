@@ -22,6 +22,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.2",
+    "react-native-alert-async": "^1.0.5",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-picker-select": "^8.0.4",
     "react-native-pressable-opacity": "^1.0.8",
